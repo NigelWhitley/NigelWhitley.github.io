@@ -2,27 +2,45 @@
 
 <html>
 <head>
-   <meta name="keywords" content="java,perl,gpl">
-   <meta name="description" content="Programs with source code">
-   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-   <link rel=stylesheet type="text/css" href="nigel.css"/>
-<title>Free programs</title>
+    <meta name="keywords" content="java,php,javascript,source,gpl">
+    <meta name="description" content="Programs with source code">
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href='//fonts.googleapis.com/css?family=Playfair Display' rel='stylesheet'>
+    <link href='//fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <link rel=stylesheet type="text/css" href="noocoding.css"/>
+<title>Example programs</title>
 </head>
 <body>
-
-<div id="header">
+<div id="main-body">
+<div id="title_section">
 <h1>
-Free programs
+<span>Nigel's Free programs</span>
 </h1>
+</div>
+
+<div id="main-background">
+    <img src='site_images/late_red_crop_480.png' srcset='site_images/late_red_crop_1920.png 960w'>
+</div>
+
+<div id="main-content">
+
+<div id="nav_section" class="light_glow">
       <ul id="nav">
-        <li>
-          <a href="index.html" id="home">Home</a>
+        <li class="current-nav">
+          Home
         </li>
         <li>
-          <a href="TilePuzzle.html">TilePuzzle</a>
+          <a href="sudoku/sudoku.html">Sudoku&nbsp;helper</a>
         </li>
         <li>
-          <a href="UPrename.html">UPrename.pl</a>
+          <a href="noo_images/noo_images.php">Slideshow</a>
+        </li>
+        <li>
+          <a href="TilePuzzle/TilePuzzle.html">TilePuzzle</a>
+        </li>
+        <li>
+          <a href="duplicates/duplicates.php">Image&nbsp;duplicates</a>
         </li>
         <li>
           <a href='Javascript:void("")' title='Previous page' onClick='history.back()'>Back</a>
@@ -35,58 +53,126 @@ Free programs
 </div>
 
 <div id="intro">
-<p>
-Three simple programs : each is released under the <a href="license.txt">Gnu GPL</a>.
-<br/>
-To see more about them, just click on the associated link.
-</p>
+Some simple programs : each is released under the <a href="gpl.html" title="Click to see the license" class="inner_glow">Gnu&nbsp;GPL</a>.
+To see more about them, use the buttons below.
 </div>
 
 <div id="programs">
-<ul>
-<li>
-<div class="program-name" ><a href="TilePuzzle.html">TilePuzzle</a></div>
-<div class="program-desc">
-A Java applet which simulates a child's sliding tile puzzle
+<a href="#sudoku" class="program-name sudoku">Sudoku&nbsp;helper</a>
+<div id="sudoku" class="program-desc sudoku">
+<div>
+<a href="#" title="Close" class="close-desc">X</a>
+<div class="centred-div program-no-scroll">
+<h4>Sudoku&nbsp;Helper</h4>
+<a href="sudoku/sudoku.html" title="Try Sudoku Helper" class="button sudoku">Try it</a>
 </div>
-</li>
-<li>
-<div class="program-name" ><a href="UPrename.html">UPrename.pl</a></div>
-<div class="program-desc">
-A Perl/Tk utility for batch renaming
+<div class="program-text">
+<p>A Javascript aid for solving the logic puzzle known as Sudoku.The sidebar for it contains more information including a simple guide to using it</p>
+<p>This is the most likely to get a "responsive" rewrite because I still use it when I get really stuck.</p>
+<p>You can download a zip of the code <a href="sudoku.zip" title="Download" class="inner_glow">here</a></p>
 </div>
-</li>
-<li>
-<div class="program-name" ><a href="sudoku.html">sudoku.html</a></div>
-<div class="program-desc">
-A Javascript aid for solving the logic puzzle known as Sudoku.
-You can see the code for the page <a href="sudoku.html.txt">here</a>
 </div>
-</li>
-</ul>
 </div>
-    
-<br/>
+<a href="#duplicates" class="program-name duplicates">Image&nbsp;duplicates</a>
+<div id="duplicates" class="program-desc duplicates">
+<div>
+<a href="#" title="Close" class="close-desc">X</a>
+<div class="centred-div program-no-scroll">
+<h4>Image&nbsp;duplicates</h4>
+<a href="duplicates/duplicates.php" title="Try Image Duplicates" class="button duplicates">Try it</a>
+</div>
+<div class="program-text">
+<p>A PHP program using AJAX which displays duplicate files according to a supplied xml file.</p>
+<p>This was written because my digital camera used to reset itself and I was never sure which photos had been uploaded. Not widely useful but it was easier to use than comparing them manually (and let me play around with xml).</p>
+<p>I've put it on here because someone may want an example of xml processing in PHP.</p>
+<a href="duplicates.zip" title="Download" class="inner_glow">Code zip</a> available.
+</div>
+</div>
+</div>
+<a href="#noo_images" class="program-name slideshow">Slideshow</a>
+<div id="noo_images" class="program-desc slideshow">
+<div>
+<a href="#" title="Close" class="close-desc">X</a>
+<div class="centred-div program-no-scroll">
+<h4>Slideshow</h4>
+<a href="noo_images/noo_images.php" title="Try Slideshow" class="button slideshow">Try it</a>
+</div>
+<div class="program-text">
+<p>A simple gallery and slideshow using jQuery and Colourbox.</p>
+<p>This was largely an exercise in using jQuery and dynamically generated CSS. It allowed me to try integrating an existing Javascript module (Colourbox) but, after getting it working, I wrote a "native" one to see how much code it would need to get something working.</p>
+<p>You can download a zip of the code <a href="noo_images.zip" title="Download" class="inner_glow">here</a></p>
+</div>
+</div>
+</div>
+<a href='#tilepuzzle' class="program-name tilepuzzle">TilePuzzle</a>
+<div id="tilepuzzle" class="program-desc tilepuzzle">
+<div>
+<a href="#" title="Close" class="close-desc">X</a>
+<div class="centred-div program-no-scroll">
+<h4>TilePuzzle</h4>
+<a href="TilePuzzle/TilePuzzle.html" title="Try TilePuzzle" class="button tilepuzzle" >Try it</a>
+</div>
+<div class="program-text">
+<p>A Java applet which simulates a child's sliding tile puzzle.</p>
+<p>There is also documentation of the design and code, written over a decade ago. Unfortunately, these days, few browsers allow java plugins but it can be run as an application too.</p>
+</div>
+</div>
+</div>
+<a href="#nonogram" class="program-name nonogram">Nonogram&nbsp;solver</a>
+<div id="nonogram" class="program-desc nonogram">
+<div>
+<a href="#" title="Close" class="close-desc">X</a>
+<div class="centred-div program-no-scroll">
+<h4>Nonogram&nbsp;Solver <span class="wip-banner">Work in progress</span></h4>
+
+<a href="nonogram/" title="Try Nonogram Solver" class="button nonogram">Try it</a>
+</div>
+<div class="program-text">
+<p>A Nonogram solver using the Codeigniter framework</p>
+<p>Written to solve the nonogram for the 2015 GCHQ Christmas card puzzle. It works for other nonograms I've tried too, although the algorithm is far from thorough.</p>
+<p>The program uses Ajax with session variables to keep track of the puzzle state.The puzzles must currently be stored as xml files, although I'm working on a graphical editing facility. The Load button will show two puzzles - "gchq" and "umbrella". I've disabled the Save action with it being a public server.</p>
+</div>
+</div>
+</div>
+<div class="modal-mask">&nbsp;</div>
+</div>
+<div class="program-summary">
+<p>The programs were developed primarily for my own interest and probably won't work well on a tablet or smartphone - or even a low-res screen. I may tweak them at some stage to bring them up-to-date but I'm generally more interested in developing new things than revivification. Otherwise this page might be titled "The Running Dead".</p>
+<p>It's rather a mixed bag because I'm usually trying to learn how something works or how to make something work. For example, this page is static HTML and CSS (except for the "Back" menu option, even the button clicks use a CSS hack) but the Sudoku helper is essentially all Javascript (except the sidebar).</p>
+<div class="modal-mask">&nbsp;</div>
+</div>
+</div>
+
+
+
+<div id="aboutme">
+<h3 class="subtitle">About me</h3>
+<p>
+I started programming in the mid '70s, as part of a Computer Studies 'O' level. At first it was coding sheets sent away to be entered into the computer. Then the school installed the technological marvel of a teletype, complete with punched tape facility, connected to the remote mainframe through an acoustic coupler. I was smitten and knew that writing software was what I wanted as a career.
+</p>
+<p>
+At university, I studied computing science and learned the joy of having a huge stack of punched cards distribute itself over the machine room floor when a rubber band broke.
+But I also used Unix and wrote programs using a screen for the first time. I even bought a Sinclair ZX80 when they appeared and was able to have my very own computer to explore.
+</p>
+<p>
+On graduation, I was fortunate enough to get a job with a major software house and have been developing software ever since. <span id="favourite-language" title="My favourite is awk, simply because it does what it does so efficiently">I've used over a dozen languages (commercially) through the years and meandered from assembly language to object-oriented web development. 
+I've worked on code to bolt together the wings of an Airbus and code to display its flight plan in the cockpit, worked in refineries and environmental agencies, for multinationals and where I was the only employee. 
+But I still enjoy writing code at home.
+</p>
+<p>
+I've gone from coding sheets to stylesheets but writing software still thrills and delights (and occasionally frustrates). These programs reflect my curiosity and a tendency to explore new (to me) techniques by writing programs for idle amusement.
+</p>
+</div>
 
 <div class="info">
-<h3>
-Why have I used the <a href="license.txt">Gnu GPL</a> ?
-</h3>
-<p>Because it protects those I want to benefit - the users and me :-).
-</p>
-<p>
-It benefits users by guaranteeing their right to see and improve this source code, even if I get a sulk on and change my mind later. Of course, that doesn't mean that you're expected to do anything with the source code. 
-Think of the GPL as a fire extinguisher: in an ideal world you'll never need it but better to have it and not need it, than need it and not have it.
-</p>
-<p>
-It benefits me by allowing me to share the source while preserving my rights - it's still copyrighted, not public domain, so my rights have not been diminished. More particularly, for both the renaming utility and the TilePuzzle, the most interesting part of developing them was figuring out the internal algorithms. Therefore I want people to be able to see the code so that they can see how they work.
-</p>
+</div>
 </div>
 
-<div id="footer">
-(c) Copyright 2002-2012 Nigel Whitley
+<div id="legal_section">
+<span class="dark_glow">(c) Copyright 2002-2014 Nigel Whitley</span>
 </div>
 
+</div>
 
 </body>
 </html>
