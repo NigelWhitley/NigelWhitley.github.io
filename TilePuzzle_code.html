@@ -1,0 +1,615 @@
+<!DOCTYPE PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+   <meta name="keywords" content="java,awt,puzzle,game">
+   <meta name="description" content="Simulates a sliding tile puzzle.">
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel=stylesheet type="text/css" href="puzzle.css">
+   <title>Tile Puzzle Code</title>
+  </head>
+  <body>
+      <div id=header>
+      <h1>Code for the Tile Puzzle</h1>
+      </div>
+
+      <table width="90%" align="center" id="nav">
+      <tr><td align="center">
+      <h3 align="center">Not where you wanted to be ?</h3>
+      </td></tr>
+      <tr><td>
+      <ul>
+        <li>
+          <a href="index.html" id="home">Home</a>
+        </li>
+        <li>
+          <a href="TilePuzzle.html">TilePuzzle</a>
+        </li>
+        <li>
+          <a href="TilePuzzle_solution.html">TilePuzzle algoithm</a>
+        </li>
+        <li>
+          <a href="UPrename.html">UPrename.pl</a>
+        </li>
+        <li>
+          <a href='Javascript:void("")' title='Previous page' onClick='history.back()'>Back</a>
+        </li>
+      </ul>
+      </td></tr>
+      </table>
+
+    <br/>
+     
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      This page contains an overview of the code.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      The TilePuzzle applet can be tried <a href="TilePuzzle.html">here</a>.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      Further information about the algorithm and code for solving the puzzle automatically can be viewed <a href="TilePuzzle_solution.html">here</a>.
+      <script language="javascript">
+
+function backTableLink() {
+	var ref = history.previous;
+	if ( ref != undefined) {
+		document.write('</td></tr><tr><td>You can also go ');
+		document.write("<a href='Javascript:void(" + ref + ")' title='Previous page' onClick='history.back()'>back</a> where you came from.");
+	}
+}
+backTableLink();
+</script>
+
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <h2>Overview</h2>
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      I developed this because I was interested in developing an algorithm for solving the puzzle automatically.
+      I then adapted it to demonstrate the AWT UI, because there were few "practical" examples when I was starting with Java.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      Like most programmers, I think the code has plenty of comments but I have the advantage of already knowing the code.
+      Consequently, this page is intended to give a quick guide to the code and the way in which the classes interact - for details, see the code itself.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      The number of tiles can be customised, and there are three styles of tiles -
+      one makes each a Button, another draws each tile using the Graphics functions and the third uses an Image (here it's a photo of Lake Tahoe).
+      You can also tell the applet to solve the puzzle automatically and adjust the rate at which it does so.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      From a user's point of view, the applet display has three sections : top, middle and bottom.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      At the top is one of the Controls classes. In the middle is one of the PuzzleDisplay classes.
+      At the bottom is the InformationPanel class.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      From a developer's perspective, there is some separation of form and function.
+      The "function" part comes from the Data classes which encapsulate the logical layout of tiles :
+      the Display classes represent the "form" part and determine how each tile is presented to the user.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      There are also various controls to "customise" the behaviour of the applet.
+      Each set of controls has its own Controls class and communicates with the main class through the Data class.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      Finally, there are Event classes to facilitate the passing of messages between the Display, Data and Control classes and also the main controlling applet class.
+      <dl>
+        <dt>For example :- </dt><dd>When the OK button in the SpeedControls class is clicked a SpeedOK message is passed, via the AutoData class, to the TilePuzzle class which then makes the adjustment to the speed.</dd>
+      </dl>
+      In theory, this structure will allow different UI presentations or underlying data structures to be implemented without changing the messaging control.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <hr/>
+    <h2 align="center">General</h2>
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+    <h3><a href="TilePuzzle.java">TilePuzzle</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+      This is the main applet/application class.
+      Its principal roles are to display the UI elements detailed below and to control the underlying Data class.
+      As the applet class, it also controls the initialization and running of the applet.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      The method which principally defines the behaviour of the class is <span id="emphasis">puzzleChange</span>, from the <span id="emphasis">PuzzleListener</span> interface.
+      The <span id="emphasis">SolutionListener</span> interface uses the <span id="emphasis">solutionChanged</span> method to react to the progress of the automated solution.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      <h3><a href="PuzzlePosition.java">PuzzlePosition</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+      The puzzle consists of tiles arranged in rows and columns.
+      For example, initially tile 1 is at row 1 column 1; tile 2 is at row 1 column 2.
+      Each possible position can be represented by the row and column to which it belongs.
+      This class encapsulates that row/column pair and adds methods to test positions relative to each other.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      <h3><a href="Random1.java">Random1</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+      The <span id="emphasis">shuffle</span> method in <span id="emphasis">PuzzleData</span> needs random numbers from a range of integers.
+      Unfortunately, the JVM of some browsers (including Netscape 4 which I use) are 1.1 compliant and the Java Random class did not have such a method until 1.2.
+      So I made a simple extension of Random and added <span id="emphasis">nextIntFromRange</span>.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      <h3><a href="InformationPanel.java">InformationPanel</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+        Shows a read-only text field for the display of informational text.
+		When the Image PuzzleDisplay is selected, a thumbnail of the the main image is added to the InformationPanel.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      <h3><a href="ThumbnailImage.java">ThumbnailImage</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+        Used in the InformationPanel component to display a small version of the image displayed in the ImagePuzzleDisplay.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      <h3><a href="RegularControls.java">RegularControls</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+        Offers buttons to shuffle and automatically solve the puzzle.
+		There are also buttons to switch to the customizing controls (ResizeControls, StyleControls and SpeedControls).
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      <h3><a href="ResizeControls.java">ResizeControls</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+        Offers text fields to specify the number of rows and columns in the puzzle, and buttons to confirm or reject the new dimensions.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      <h3><a href="StyleControls.java">StyleControls</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+        Offers radio buttons to choose the type of puzzle display, and buttons to confirm or reject the new style.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+     <h3><a href="SpeedControls.java">SpeedControls</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+        Offers a drop down list to specify the rate at which the puzzle will be solved automatically, and buttons to confirm or reject the new speed.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      <h3><a href="FilePreviewer.java">FilePreviewer</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+        Allows the user to navigate the file system to choose an image file.
+    </td>
+    </tr>
+    </table>
+
+
+    <hr>
+    <h2 align="center">Displays</h2>
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      These classes present the puzzle to the user and identify which tile has been clicked.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      PuzzleDisplay is the abstract foundation class.
+      AutoDisplay extends PuzzleDisplay to display tiles when the puzzle is being automatically solved.
+      ButtonPuzzleDisplay and DrawnPuzzleDisplay are descended directly from AutoDisplay.
+      ImagePuzzleDisplay is descended from DrawnPuzzleDisplay.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      <h3><a href="PuzzleDisplay.java">PuzzleDisplay</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+      Visually, the puzzle is a set of tiles with each tile having a <span id="variation">background</span>, a <span id="variation">frame</span> and a <span id="variation">value</span>.
+      Each of these display elements has an associated colour.
+      The default <span id="emphasis">drawTile</span> method displays the background, then the frame and finally the value.
+      The tiles also have a defined height and width.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      The default <span id="emphasis">drawTileValue</span> method calls different methods depending on the "role" of the tile : each tile is either <span id="variation">Normal</span>, <span id="variation">Blank</span> or <span id="variation">Movable</span>.
+      The Blank tile represents the tile which has been removed to allow the other tiles to be rearranged.
+      The Normal tiles in the puzzle cannot be moved as they are locked in place by other tiles.
+      A Movable tile is one of the tiles adjacent to the blank tile which can be moved (by sliding in the real world).
+    </td>
+    </tr>
+    <tr>
+    <td>
+      The other major requirement of the puzzle display - the ability to identify when the user wants to move a tile - is supported by <span id="emphasis">requestPuzzleMove</span>, which sends a "Click" message via the underlying Data class.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      <h3><a href="AutoDisplay.java">AutoDisplay</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+      Also an abstract class, AutoDisplay extends the basic PuzzleDisplay to add the role of a <span id="variation">Solving</span> tile i.e. the tile which the applet is attempting to move to its final "solved" position.
+      As with the other roles the tile can have an associated colour.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      The other addition is the makeNormal flag which is used during the automated solution.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      <h3><a href="PuzzleButtonDisplay.java">PuzzleButtonDisplay</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+      PuzzleButtonDisplay extends AutoDisplay and uses the Container behaviour of a Panel to implement the puzzle as a set of Button components.
+      This simplifies the display requirements by relying on the GridLayout to place the tiles in a regular design.
+      A click on a tile is now a click on a button, so the actionListener for the buttons is diverted to <span id="emphasis">actionPerformed</span> in this class for handling.
+      The only significant problem is converting the source component to a tile position : this is handled with <span id="emphasis">findButtonIndex</span> and <span id="emphasis">getPositionForOrdinal</span>
+    </td>
+    </tr>
+    <tr>
+    <td>
+      Because this is a concrete, not an abstract class, the abstract methods must be overridden : <span id="emphasis">drawBlankTile</span>, <span id="emphasis">drawSolvingTile</span>, <span id="emphasis">drawMovableTile</span>, <span id="emphasis">drawNormalTile</span>, <span id="emphasis">drawTileBackground</span> and <span id="emphasis">drawTileFrame</span> must be defined for a button.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      <h3><a href="PuzzleDrawnDisplay.java">PuzzleDrawnDisplay</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+      PuzzleDrawnDisplay extends AutoDisplay and uses the Canvas behaviour of a Panel to implement the puzzle by drawing each tile with the Graphics methods.
+      During the initialisation, the size of the tiles is calculated and stored.
+      The dimensions are then used by the Graphics routines in the overridden methods without recalculation.
+      A click on a tile is now a click on the canvas, so <span id="emphasis">DrawnAdapter</span> is used to trap mouse clicks and convert the coordinates to a tile position.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      Because this is a concrete, not an abstract class, the abstract methods must be overridden : <span id="emphasis">drawBlankTile</span>, <span id="emphasis">drawSolvingTile</span>, <span id="emphasis">drawMovableTile</span>, <span id="emphasis">drawNormalTile</span>, <span id="emphasis">drawTileBackground</span> and <span id="emphasis">drawTileFrame</span> must be defined for a button.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      <h3><a href="PuzzleImageDisplay.java">PuzzleImageDisplay</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+      PuzzleImageDisplay extends PuzzleDrawnDisplay and adds an ImageObserver interface to implement the puzzle using an image.
+      It overrides <span id="emphasis">drawTileValue</span> to draw each tile as a portion of the image.
+      The <span id="emphasis">buildPuzzleFromData</span> method scales the image to  fit the display dimensions and uses those values to calculate the tile size.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <hr>
+
+    <h2 align="center">Data</h2>
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      These classes support the logical representation of the puzzle.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      PuzzleData is the foundation class for representing the the logical layout of the tiles in the puzzle.
+      AutoData extends PuzzleData for when the puzzle may be automatically solved.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      <h3><a href="PuzzleData.java">PuzzleData</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+      Logically, the puzzle is a rectangular matrix of tiles, one of which is <span id="variation">blank</span>.
+      The only tiles in the puzzle which can be <span id="variation">move</span>d are those directly above and below the blank and those directly to the left and right of the blank.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      Each tile in the puzzle has a <span id="variation">value</span> (represented as an ordinal) and a <span id="variation">position</span> (represented as a <a href="PuzzlePosition.java">PuzzlePosition</a>).
+      For example, in a solved puzzle with 4 rows and 4 columns, the tile with value 7 will be at row 2 column 4 :
+      when the puzzle is scrambled, the same tile could be in any position.
+      Therefore, this class must keep track of the positions and values of the tiles, and provides the following information
+      <ul>
+        <li>the value of tile for a given tile position</li>
+        <li>the current tile position for a given tile value</li>
+        <li>the (target) tile position for a given tile value when the puzzle is solved</li>
+      </ul>
+    </td>
+    </tr>
+    <tr>
+    <td>
+      The only tiles in the puzzle which can be <span id="variation">move</span>d are those directly above and below the blank and those directly to the left and right of the blank.
+      The class has methods to return a list of all movable tiles and also to indicate whether a given tile is movable.
+      The moveTile method will "move" a tile, which is actually swapping the positions of the movable tile and the blank tile.
+      To assist in handling movable tiles, the <span id="emphasis">getPositionToRight</span>, <span id="emphasis">getPositionToLeft</span>, <span id="emphasis">getPositionAbove</span> and <span id="emphasis">getPositionBelow</span> methods return those relative tile positions for a given tile.
+      Of course, if the blank tile is (say) in the leftmost column, there is no valid movable tile to the left.
+      To cater for this, there are methods to predefine <span id="variation">invalid</span> tile positions and values and to check for them.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      The other major function of the puzzle data class is to be a central exchange for <span id="variation">puzzle events</span> and to notify the puzzle listeners when events occur.
+      This is reasonable because, in general, puzzle events reflect changes in the data class.
+      It would add complexity to create a special messaging center just to cater for a few exceptional events.
+      But there is a <span id="emphasis">sendmessage</span> method to cater for message events and that uses the puzzle listeners too.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      The other methods of note are <span id="emphasis">shuffle</span> and <span id="emphasis">shufflePuzzle</span>, which "shuffle" the puzzle by moving the tiles at random.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      <h3><a href="AutoData.java">AutoData</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+      AutoData extends PuzzleData to support automated puzzle solutions.
+      At any time, the puzzle may have an associated <a href="PuzzleSolution.java">PuzzleSolution</a>.
+      A PuzzleSolution can generate <a href="SolutionEvent.java">SolutionEvent</a>s and Autodata has methods for managing <a href="SolutionListener.java">SolutionListener</a>s to respond to those events.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      The class also stores the tile value of the <span id="variation">Solving</span> tile i.e. the tile which the <span id="emphasis">PuzzleSolution</span> is attempting to move to its final "solved" position.
+      When choosing which should be the solving tile, the usual choice is the "lowest" unsolved tile as returned by <span id="emphasis">getLowestUnsolvedValue</span>.
+    </td>
+    </tr>
+    </table>
+
+      <hr>
+
+      <h2>Events and Listeners</h2>
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      These are extensions of the standard ActionEvent and EventListener classes.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      <h3><a href="PuzzleEvent.java">PuzzleEvent</a>, <a href="PuzzleListener.java">PuzzleListener</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+      These classes work in tandem to keep the components of the applet in sync.
+      The events are usually propagated through the AutoData class.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      <h3><a href="SolutionEvent.java">SolutionEvent</a>, <a href="SolutionListener.java">SolutionListener</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+      These classes allow components to monitor the progress of the automated solution.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      <h3><a href="MessageEvent.java">MessageEvent</a>, <a href="PositionEvent.java">PositionEvent</a></h3>
+    </td>
+    </tr>
+    <tr>
+    <td>
+      These classes extend PuzzleEvent to allow type checking of data for specialised events.
+    </td>
+    </tr>
+    </table>
+
+    <hr/>
+
+    <h2 align="center">Building it yourself</h2>
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      As you can see from the headers in the code, it has been released under the terms of the <a href="license.txt">GPL</a>
+      If you have a java compiler, you can build the puzzle applet/application using <a href="buildit.bat">this script</a> and the full set of source files.
+      The files are referenced in these pages, but I've listed them all below for easy reference.
+      <ul>
+
+      <li><a href="Random1.java">Random1.java</a></li>
+      <li><a href="PuzzlePosition.java">PuzzlePosition.java</a></li>
+      <li><a href="PuzzleEvent.java">PuzzleEvent.java</a></li>
+      <li><a href="PositionEvent.java">PositionEvent.java</a></li>
+      <li><a href="MessageEvent.java">MessageEvent.java</a></li>
+      <li><a href="PuzzleListener.java">PuzzleListener.java</a></li>
+      <li><a href="SolutionEvent.java">SolutionEvent.java</a></li>
+      <li><a href="SolutionListener.java">SolutionListener.java</a></li>
+      <li><a href="PuzzleData.java">PuzzleData.java</a></li>
+      <li><a href="PuzzleMove.java">PuzzleMove.java</a></li>
+      <li><a href="PuzzleSolution.java">PuzzleSolution.java</a></li>
+      <li><a href="AutoData.java">AutoData.java</a></li>
+      <li><a href="SolveTilePuzzle.java">SolveTilePuzzle.java</a></li>
+      <li><a href="PuzzleDisplay.java">PuzzleDisplay.java</a></li>
+      <li><a href="AutoDisplay.java">AutoDisplay.java</a></li>
+      <li><a href="PuzzleDrawnDisplay.java">PuzzleDrawnDisplay.java</a></li>
+      <li><a href="PuzzleImageDisplay.java">PuzzleImageDisplay.java</a></li>
+      <li><a href="PuzzleButtonDisplay.java">PuzzleButtonDisplay.java</a></li>
+      <li><a href="ThumbnailImage.java">ThumbnailImage</a></li>
+      <li><a href="InformationPanel.java">InformationPanel</a></li>
+      <li><a href="RegularControls.java">RegularControls</a></li>
+      <li><a href="ResizeControls.java">ResizeControls</a></li>
+      <li><a href="FilePreviewer.java">FilePreviewer</a></li>
+      <li><a href="StyleControls.java">StyleControls</a></li>
+      <li><a href="SpeedControls.java">SpeedControls</a></li>
+      <li><a href="TilePuzzle.java">TilePuzzle.java</a></li>
+      </ul>
+    </td>
+    </tr>
+    </table>
+
+
+      <div id="footer">(c) 2002-2004 Copyright Nigel Whitley</div>
+  </body>
+</html>

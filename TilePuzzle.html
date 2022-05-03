@@ -1,0 +1,147 @@
+<!DOCTYPE PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+   <meta name="keywords" content="java,awt,puzzle,game">
+   <meta name="description" content="Simulates a sliding tile puzzle.">
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel=stylesheet type="text/css" href="puzzle.css">
+   <title>Tile Puzzle (1.1)</title>
+  </head>
+  <body>
+      <div id=header><h1>Tile Puzzle (1.1)</h1></div>
+      
+      <table width="90%" align="center" id="nav">
+      <tr><td align="center">
+      <h3 align="center">Not where you wanted to be ?</h3>
+      </td></tr>
+      <tr><td>
+      <ul>
+        <li>
+          <a href="index.html" id="home">Home</a>
+        </li>
+        <li>
+          <a href="TilePuzzle_code.html">TilePuzzle code</a>
+        </li>
+        <li>
+          <a href="TilePuzzle_solution.html">TilePuzzle algoithm</a>
+        </li>
+        <li>
+          <a href="UPrename.html">UPrename.pl</a>
+        </li>
+        <li>
+          <a href='Javascript:void("")' title='Previous page' onClick='history.back()'>Back</a>
+        </li>
+      </ul>
+
+      </td></tr>
+      </table>
+      
+      <table align="center">
+      <tr>
+      <td>
+       <applet archive=puzzle.jar code=TilePuzzle.class width=500 height=400>
+	<param name=img value="alps.jpg">
+	<param name=style value="ImageStyle">
+	alt="Your browser understands the &lt;APPLET&gt; tag but isn't running the applet, for some reason."
+	Your browser is completely ignoring the &lt;APPLET&gt; tag!
+      </applet>
+      </td>
+      <td valign="top">
+      </td>
+      </tr>
+    </table>
+
+    <hr/>
+    
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      This applet simulates the sliding tile puzzle you may recall from childhood :
+      one tile has been removed to allow the others to be rearranged.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      The code can also be run as an application.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      There is general information about the code design <a href="TilePuzzle_code.html">here</a>.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      More information about the "solving" algorithm and its related code is <a href="TilePuzzle_solution.html">here</a>.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      To try the puzzle, just click on any of the rectangular divisions or "tiles" next to the blank tile : the clicked tile will move to the position occupied by the blank tile. 
+       Rather than jumbling the puzzle manually you can click on the "Shuffle" button which will rapidly move tiles at random and then display the resulting layout. Pressing "Shuffle" again will reiterate the process.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      You can change the number of rows and columns in the puzzle by clicking on the "Resize" button and entering the new values. 
+    </td>
+    </tr>
+    <tr>
+    <td>
+      You can also choose the method used to show the tiles of the puzzle by clicking on the "Style" button - 
+      one style makes each a Button, another draws the tile using the Graphics functions and the third uses an Image (here it's a photo of the Alps). 
+      Be warned that choosing the Image style will cause the the image to be downloaded, which might take a while on a dial-up connection.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      When the puzzle is not in its inital or "solved" state, you have the option to let the computer solve the puzzle for you.
+      <ul>
+      <li>
+      Pressing "Reset" will immediately return the puzzle to its solved state without showing any intermediate moves. 
+      </li>
+      <li>
+      Pressing "Move" will cause a single tile to be moved each time it is pressed until the puzzle is completely solved. 
+      </li>
+      <li>
+      Pressing "Solve it" will move tiles using a timer until the puzzle is solved or the user clicks "Stop Solving" or "Reset". The rate at which tiles are moved can be varied by clicking on the "Speed" button and choosing the rate controls accessed by clicking on the "Speed" button.
+      </li>
+      </ul>
+      One point worth making is that the automatic solution is not simply a reversal of the "Shuffle" process. You can shuffle the puzzle manually and then use "Move" or "Solve it" to see how brilliantly the computer manages using its <a href="TilePuzzle_solution.html">algorithm</a>. Unfortunately, you may well see how stupid it can be too.
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      If you want to download all the source in one go, <a href="puzzle.tar.gz">this</a> is the gzipped tar file. 
+    </td>
+    </tr>
+    <tr>
+    <td>
+      If you just want to use the applet in your own stuff but don't need to compile it yourself, <a href="puzzle.jar">this</a> is the compiled archive(jar) : to use your own image change the "img" parameter to refer to it (or rename your image to <code>puzzle.jpg</code>. 
+    </td>
+    </tr>
+    </table>
+
+    <div id=footer>(c) 2002-2005 Copyright Nigel Whitley</div>
+  </body>
+</html>

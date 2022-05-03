@@ -1,0 +1,407 @@
+<!DOCTYPE PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+   <meta name="keywords" content="java,awt,puzzle,game">
+   <meta name="description" content="Simulates a sliding tile puzzle.">
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel=stylesheet type="text/css" href="puzzle.css">
+   <title>Tile Puzzle Solution</title>
+</head>
+<body>
+
+      <div id="header"><h1>
+Automatically Solving This Tile Puzzle
+      </h1></div>
+
+      <table width="90%" align="center" id="nav">
+      <tr><td align="center">
+      <h3 align="center">Not where you wanted to be ?</h3>
+      </td></tr>
+      <tr><td>
+      <ul>
+        <li>
+          <a href="index.html" id="home">Home</a>
+        </li>
+        <li>
+          <a href="TilePuzzle.html">TilePuzzle</a>
+        </li>
+        <li>
+          <a href="TilePuzzle_code.html">TilePuzzle code</a>
+        </li>
+        <li>
+          <a href="UPrename.html">UPrename.pl</a>
+        </li>
+        <li>
+          <a href='Javascript:void("")' title='Previous page' onClick='history.back()'>Back</a>
+        </li>
+      </ul>
+      </td></tr>
+      </table>
+
+    <br/>
+     
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+      This page contains contains information about the algorithm and code for solving
+the puzzle automatically.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      The TilePuzzle applet can be tried <a href="TilePuzzle.html">here</a>.
+    </td>
+    </tr>
+    <tr>
+    <td>
+      An overview of the code can be viewed <a href="TilePuzzle_code.html">here</a>.
+      <script language="javascript">
+
+function backTableLink() {
+	var ref = history.previous;
+	if ( ref != undefined) {
+		document.write('</td></tr><tr><td>You can also go ');
+		document.write("<a href='Javascript:void(" + ref + ")' title='Previous page' onClick='history.back()'>back</a> where you came from.");
+	}
+}
+backTableLink();
+</script>
+
+    </td>
+    </tr>
+    </table>
+    <br/>
+<h2 align="center">
+Overview
+</h2>
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+One significant "improvement" over the simple plastic puzzles is that this applet can solve
+itself automatically. The <span id="emphasis">run</span> method in the applet class periodically
+calls <span id="emphasis">nextAutoMove</span>. If automatic solving is operating, the automated
+solution class builds and sends a request to move the next tile.
+The request is handled in the <span id="emphasis">puzzleChange</span> method
+which calls <span id="emphasis">moveTile</span> to take care of the move.
+    </td>
+    </tr>
+    <tr>
+    <td>
+The tricky stuff is in deciding which tile to move : this is the job
+of the <a href="PuzzleSolution.java">PuzzleSolution</a> class and its offspring.
+The overall strategy is to start at the top left and move right along the
+row, then down to the next row (left to right) and on down. The last two
+rows are treated differently : they are solved a column at a time, upper
+tile first. This solving order is mirrored in the <span id="emphasis">getLowestUnsolvedValue</span>
+method in AutoData. In practice, it is that method which is used to determine
+the next tile to solve.
+    </td>
+    </tr>
+    <tr>
+    <td>
+An exception to this order has effect when there are only two columns.
+In that case, a similar solution to the last two rows applies but rotated through ninety degrees.
+The tiles are solved a row at a time but with a special move for the rightmost column (<span id="emphasis">SolveRightColumn</span>).
+    </td>
+    </tr>
+    </table>
+
+    <hr/>
+
+<h2 align="center">
+Class hierarchy</h2>
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+Solving the puzzle consists of many tile moves - too many for me to grasp
+individually. So there are classes which support multiple moves. The base
+class for these is <span id="emphasis">PuzzleMove</span>. This supports moving tiles in stages
+to a target position around a reference position. The reference position
+is calculated implicitly when the class is initialised, but some situations
+require that it is set explicitily to modify the behaviour of the class.
+<p>When building the solution, I found it easier to imagine "moving" the
+blank rather than moving the tiles. Hence, there are several classes which
+clearly move the blank regardless of the tiles being moved - <span id="emphasis">MoveBlankTo</span>,
+<span id="emphasis">MoveBlankRightTo</span>,
+<span id="emphasis">MoveBlankLeftTo</span>,
+<span id="emphasis">MoveBlankUpTo</span>,
+<span id="emphasis">MoveBlankDownTo</span>, <span id="emphasis">RotateBlankTo</span> and
+<span id="emphasis">AntiRotateBlankTo</span>. Along with the basic <span id="emphasis">MoveTile</span>, these classes
+form the building blocks for moving a tile to its target (solved) position.
+<p>The next step is building classes to deal with various situations. The
+major situations (and classes to deal with them) are
+<ul>
+<li>
+last row (<span id="emphasis">SolveLastRow</span>)- to "solve" the tile in the bottom row we
+generally need to disturb the solved tile above it;
+</li>
+<li>
+last column (<span id="emphasis">SolveLastColumn</span>) - to "solve" the tile in the rightmost
+column we generally need to disturb the two solved tiles to the left of
+its target position;
+</li>
+<li>
+right column of two (<span id="emphasis">SolveRightColumn</span>) - to "solve" the tile in the rightmost
+column we disturb the solved tiles to the left of its target position;
+</li>
+<li>
+tile to the left of its target position (<span id="emphasis">SolveFromLeft</span>) - must move
+tile to the right without disturbing the solved tiles to the left of its
+target position;
+</li>
+<li>
+normal situation (<span id="emphasis">SolveNormal</span>) - none of the above ( target position
+to the left or above or both ).
+</li>
+</ul>
+Of course, within each situation there are smaller complications. Usually,
+these involve initially positioning the blank next to the solving tile.
+<p>To complete the solution, there are the <span id="emphasis">SolveTileValue</span> and <span id="emphasis">SolveTilePuzzle</span>
+classes. The <span id="emphasis">SolveTileValue</span> class puts the previous classes together
+to move an individual tile to its target position. The <span id="emphasis">SolveTilePuzzle</span>
+class creates <span id="emphasis">SolveTileValue</span> classes for each tile until all the
+entire puzzle has been solved.
+    </td>
+    </tr>
+    </table>
+
+<hr/>
+<h2 align="center">
+Class methods</h2>
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+One of the key features of the solution/move classes is the ability to
+be driven from a timer, which requires persistence of information.
+<ul>
+<li>
+So, the position of all tile in the puzzle must be available to the solution(<span id="emphasis">setData</span>
+and <span id="emphasis">getData</span>).</li>
+
+<li>
+The tiles to be moved for the solution must be obtained one at a time (<span id="emphasis">getTileToMove</span>).
+</li>
+
+<li>
+It must be possible to identify when all of the tiles have been obtained(<span id="emphasis">isComplete</span>).
+</li>
+
+<li>
+Clearly, it must also be possible to specify the objective of the move(<span id="emphasis">setTargetPosition</span>
+and <span id="emphasis">setTargetValue</span>).
+</li>
+
+<li>
+In more complex classes, there are methods to move to the next stage in
+the solution (<span id="emphasis">nextStage</span>) and to specify a reference position which will modify the
+"route" of the solution(<span id="emphasis">setReferencePosition</span>).
+</li>
+
+<li>
+Last, we need a method to figure out the next step in the move(<span id="emphasis">calculateNextMove</span>).
+</li>
+</ul>
+
+    </td>
+    </tr>
+    </table>
+
+<hr/>
+
+<h2 align="center">
+Solution source</h2>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+<h3>
+<a href="PuzzleMove.java">PuzzleMove</a></h3>
+Several classes are contained in the source file.
+<table BORDER WIDTH="100%" frame="box" >
+<tr>
+<th WIDTH="20%">Class</th>
+
+<th>Description</th>
+</tr>
+
+<tr>
+<td>PuzzleMove</td>
+
+<td>The base for all the solution and move classes. It creates a sensible
+default <span id="emphasis">isComplete</span> method which returns true only if the target
+tile value is in the target position.&nbsp;</td>
+</tr>
+
+<tr>
+<td>MoveTile</td>
+
+<td>The simplest move of all - it is only sensible to call this with a
+target position of the blank tile position</td>
+</tr>
+
+<tr>
+<td>MoveBlankTo</td>
+
+<td>This should never be called directly, but serves as a base for the
+other blank move classes.</td>
+</tr>
+
+<tr>
+<td>MoveBlankRightTo</td>
+
+<td>Moves the blank right (and therefore all intermediate tiles left) until
+it reaches the target position. This should only be used if the target
+is to the right of, and in the same row as, the blank.</td>
+</tr>
+
+<tr>
+<td>MoveBlankLeftTo</td>
+
+<td>Moves the blank left (and therefore all intermediate tiles right) until
+it reaches the target position. This should only be used if the target
+is to the left of, and in the same row as, the blank.</td>
+</tr>
+
+<tr>
+<td>MoveBlankUpTo</td>
+
+<td>Moves the blank up (and therefore all intermediate tiles down) until
+it reaches the target position. This should only be used if the target
+is above, and in the same column as, the blank.</td>
+</tr>
+
+<tr>
+<td>MoveBlankDownTo</td>
+
+<td>Moves the blank down (and therefore all intermediate tiles up) until
+it reaches the target position. This should only be used if the target
+is below, and in the same column as, the blank.</td>
+</tr>
+
+<tr>
+<td>MakeTileRotatable</td>
+
+<td>Moves the blank to one of the eight tiles surrounding the target position.&nbsp;</td>
+</tr>
+
+<tr>
+<td>RotateBlankTo</td>
+
+<td>Moves the blank to the target position in a clockwise direction around
+the reference position. The <span id="emphasis">calculateReferencePosition</span> method is
+called during the constructor to set a sensible reference position. In
+some situations the "default" reference position must be overridden.&nbsp;</td>
+</tr>
+
+<tr>
+<td>AntiRotateBlankTo</td>
+
+<td>Moves the blank to the target position in an anti-clockwise direction
+around the reference position. The <span id="emphasis">calculateReferencePosition</span> method
+is called during the constructor to set a sensible reference position.
+In some situations the "default" reference position must be overridden.&nbsp;</td>
+</tr>
+</table>
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+<h3>
+<a href="PuzzleSolution.java">PuzzleSolution</a></h3>
+PuzzleSolution adds support for <a href="SolutionListener.java">SolutionListener</a>s
+which will send <a href="SolutionEvent.java">SolutionEvent</a>s. It is
+the foundation class for both the situation specific tile solutions(<span id="emphasis">SolveNormal</span>,
+<span id="emphasis">SolveFromLeft</span>,
+<span id="emphasis">SolveLastColumn</span>
+and <span id="emphasis">SolveLastRow</span>) and the general tile solutions (<span id="emphasis">SolveTileValue</span>
+and <span id="emphasis">SolveTilePuzzle</span>).
+    </td>
+    </tr>
+    </table>
+    <br/>
+
+    <table align="center" width="95%" id="info">
+    <tr>
+    <td>
+<h3>
+<a href="SolveTilePuzzle.java">SolveTilePuzzle</a></h3>
+Several classes are contained in the source file.
+<table BORDER WIDTH="100%" frame="box" >
+<tr>
+<th WIDTH="20%">Class</th>
+
+<th>Description</th>
+</tr>
+
+<tr>
+<td>SolveNormal</td>
+
+<td>The solving tile can move left and/or up to the target position with
+no major worries about disturbing the tiles which have already been solved.
+The classic situation to which this solution applies is the tile in the
+top left corner of the puzzle i.e. tile value 1.&nbsp;</td>
+</tr>
+
+<tr>
+<td>SolveFromLeft</td>
+
+<td>In this situation, the tile is below (possibly far below) solved tiles
+and must be moved right to be in the same column as its "solved" position
+: in practice, it is often moved both right and up towards the target position.
+Once in the same column as its target, the tile can be moved using SolveNormal
+to complete the solution.&nbsp;</td>
+</tr>
+
+<tr>
+<td>SolveLastColumn</td>
+
+<td>Unless the target position is blank and the solving tile is immediately
+below it, this situation can only be solved by disturbing a previously
+solved tile. This class disturbs the two tiles to the left of the target
+position and needs to use the stage variable to progress the solution.&nbsp;</td>
+</tr>
+
+<tr>
+<td>SolveRightColumn</td>
+
+<td>Unless the target position is blank and the solving tile is immediately
+below it, this situation can only be solved by disturbing a previously
+solved tile. This class disturbs the tile to the left of the target
+position and needs to use the stage variable to progress the solution.&nbsp;</td>
+</tr>
+
+<tr>
+<td>SolveLastRow</td>
+
+<td>Unless the target position is blank and the solving tile isimmediately
+to the right of it, this situation can only be solved by disturbing a previously
+solved tile. This class disturbs the tile above the target position and
+needs to use the stage variable to progress the solution.&nbsp;</td>
+</tr>
+
+<tr>
+<td>SolveTileValue</td>
+
+<td>Can solve a single tile in any situation, since it chooses the appropriate
+situation specific class to solve the tile.&nbsp;</td>
+</tr>
+
+<tr>
+<td>SolveTilePuzzle</td>
+
+<td>Solves the entire puzzle by solving a single tile at a time, continuing
+to solve the "lowest" unsolved tile until there are tile to solve.&nbsp;</td>
+</tr>
+</table>
+    </td>
+    </tr>
+    </table>
+
+
+<div id="footer">(c) Copyright 2002-2004 Nigel Whitley</div>
+</body>
+</html>
