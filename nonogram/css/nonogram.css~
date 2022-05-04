@@ -1,0 +1,32 @@
+
+	    #controls-area { text-align: center; margin: none; padding: 5px; color: green; margin-bottom: 1em; background-color: ivory; }
+	    #solver-action { display: inline-block; text-align: center; border: 1px solid rgba(0,0,0,0.3); }
+	    #solver-undo { display: inline-block; text-align: center; border: 1px solid rgba(0,0,0,0.3); }
+	    .puzzle-row ul.puzzle-pixels { display: inline; margin: none; padding: 0; }
+	    .puzzle-row ul.puzzle-pixels li { display: inline; list-style-type: none; padding: 0; }
+	    /*
+	    .row-clues, .row-clues-heading { display: inline-block; width: <?=$row_clues_width;?>; }
+	    .row-clues-heading { display: inline-block; width: <?=$row_clues_width;?>; border-style: dotted; border-color: white; border-width: <?="1px ".$max_row_clues."px";?>; }
+	     */
+	    .row-clues-heading { display: inline-block; border-style: dotted; border-color: white; }
+	    .column-clues-row {  }
+	    .column-clues-row ul { display: inline; margin: none; padding: 0; }
+	    .column-clues-row ul li { display: inline; list-style-type: none; width: 1em; padding: 0; }
+	    .row-clues ul { display: inline; margin: none; padding: 0; }
+	    .row-clues ul li { display: inline; list-style-type: none; width: 1em; padding: 0; }
+	    .clue-solved { color: white; background-color: rgb(32,208,32); }
+	    .no-column-clue { display: inline-block; width: 1.5em; border: 1px dotted white; }
+	    .line-clue { display: inline-block; width: 1.5em; text-align: center; border: 1px solid rgba(0,0,0,0.3); }
+	    .no-row-clue { display: inline-block; width: 1.5em; border: 1px dotted white; }
+	    .puzzle-pixel { display: inline-block; width: 1.5em; }
+	    .filled-state {background-color:black; border: 1px dotted rgba(0,0,0,0.3); }
+	    .empty-state {background-color:white; border: 1px dotted rgba(0,0,0,0.3); }
+	    /* .unsolved-state {background-color:lightgrey; border: 1px dotted rgba(0,0,0,0.3); } */
+	    .unsolved-state {background-color:grey; border: 1px dotted rgba(0,0,0,0.3); }
+	    .puzzle-pixel:hover { box-shadow: inset 0px 0px 3px yellow; }
+	    .column-totals-row { margin-bottom: 1em; }
+	    .line-solving { background: rgb(192,192,192); }
+	    .line-total { display: inline-block; width: 1.5em; text-align: center; border: 1px solid rgba(0,128,0,0.3); }
+	    .puzzle-row .line-total { margin-right: 1em; }
+	    .line-solved { color: red; }
+

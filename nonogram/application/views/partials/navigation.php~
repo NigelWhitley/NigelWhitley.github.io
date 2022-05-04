@@ -1,0 +1,14 @@
+ <div id="navigation" class="nav ">
+	<div class="row">
+		<div class="col-md-3">
+		3 cols
+		</div>
+		<div class="col-md-6">
+		6 cols
+		</div>
+		<div class="col-md-1">
+		1 col
+		</div>
+	</div>
+
+ </div>

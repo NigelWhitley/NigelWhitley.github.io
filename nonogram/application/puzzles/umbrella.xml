@@ -1,0 +1,69 @@
+<?xml version='1.0'?>
+<nonogram>
+<clues>
+<clues_for type="column" index="1">
+<clue seq="1">2</clue>
+</clues_for>
+<clues_for type="column" index="2">
+<clue seq="1">2</clue>
+</clues_for>
+<clues_for type="column" index="3">
+<clue seq="1">4</clue>
+<clue seq="2">2</clue>
+</clues_for>
+<clues_for type="column" index="4">
+<clue seq="1">3</clue>
+<clue seq="2">1</clue>
+</clues_for>
+<clues_for type="column" index="5">
+<clue seq="1">9</clue>
+</clues_for>
+<clues_for type="column" index="6">
+<clue seq="1">3</clue>
+</clues_for>
+<clues_for type="column" index="7">
+<clue seq="1">4</clue>
+</clues_for>
+<clues_for type="column" index="8">
+<clue seq="1">2</clue>
+</clues_for>
+<clues_for type="column" index="9">
+<clue seq="1">2</clue>
+</clues_for>
+<clues_for type="row" index="1">
+<clue seq="1">1</clue>
+</clues_for>
+<clues_for type="row" index="2">
+<clue seq="1">5</clue>
+</clues_for>
+<clues_for type="row" index="3">
+<clue seq="1">7</clue>
+</clues_for>
+<clues_for type="row" index="4">
+<clue seq="1">9</clue>
+</clues_for>
+<clues_for type="row" index="5">
+<clue seq="1">1</clue>
+<clue seq="2">1</clue>
+<clue seq="3">1</clue>
+<clue seq="4">1</clue>
+<clue seq="5">1</clue>
+</clues_for>
+<clues_for type="row" index="6">
+<clue seq="1">1</clue>
+</clues_for>
+<clues_for type="row" index="7">
+<clue seq="1">1</clue>
+</clues_for>
+<clues_for type="row" index="8">
+<clue seq="1">1</clue>
+<clue seq="2">1</clue>
+</clues_for>
+<clues_for type="row" index="9">
+<clue seq="1">3</clue>
+</clues_for>
+</clues>
+<filled>
+
+</filled>
+</nonogram>

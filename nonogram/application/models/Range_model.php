@@ -1,0 +1,926 @@
+<?php
+/**
+ * Includes the Range_Model class as well as the required sub-classes
+ * @package codeigniter.application.models
+ */
+
+/**
+ * Range_Model extends codeigniters base CI_Model to inherit all codeigniter magic!
+ * @author Nigel Whitley
+ * @package codeigniter.application.models
+ */
+ 
+/**
+ * A "range" is a contiguous set of pixels and its associated clues.
+ * In other words it can be used for either rows or columns and for all or part of one.
+ * @author Nigel Whitley
+ * @package codeigniter.application.models
+ */
+ 
+ 
+ 
+class Range_model extends CI_Model
+{
+	/*
+	* A private variable to represent each column in the database
+	*/
+	private $clues;
+	private $pixels;
+	private $pixels_count;
+	private $clues_count;
+	public  $solution;
+	private $normal_direction;
+	private $level;
+
+	function __construct()
+	{
+		parent::__construct();
+		$get_arguments       = func_get_args();
+		$number_of_arguments = func_num_args();
+
+		$this->level = 1;
+		if (method_exists($this, $method_name = '__construct'.$number_of_arguments)) {
+			call_user_func_array(array($this, $method_name), $get_arguments);
+		}
+	}
+
+	function __construct2($clues, $pixels)
+	{
+		parent::__construct();
+		$this->init($clues, $pixels);
+	}
+
+	function __construct3($clues, $pixels, $level)
+	{
+		parent::__construct();
+		$this->init($clues, $pixels);
+		$this->level = $level;
+	}
+
+	/*
+	* Class Methods
+	*/
+
+	public function init($clues, $pixels)
+	{
+		$this->set_direction(true);
+		//$this->solution = array( 'fill' => array(), 'empty' => array(), 'solved' => array(), 'direction' => $this->direction, 'reverse' => $this->reverse);
+		$this->solution = array( 'fill' => array(), 'empty' => array(), 'solved' => array(), 'debug_log' => array());
+		$this->pixels_count = count($pixels);
+		$this->clues_count = count($clues);
+		$this->clues_length = $this->get_clues_length();
+		$this->clues = $clues;
+		$this->pixels = $pixels;
+		// We should not need to do anything with the clue start positions because the range should not include any solved clues
+		//$this->solution = array( 'fill' => array(), 'empty' => array(), 'solved' => array(), 'direction' => $this->direction, 'reverse' => $this->reverse);
+	}
+
+
+	public function log($info)
+	{
+		$this->solution['debug_log'][] = $info;
+	}
+
+
+	public function get_params()
+	{
+		//$params = array('length' => $this->length(), 'clues' => $this->clues, 'filled' => $this->filled, 'empty' => $this->empty, 'min_clue' => $this->clues_length);
+		$params = array('length' => $this->length(), 'clues' => $this->clues, 'pixels' => $this->pixels, 'clues_count' => $this->clues_count);
+		return $params;
+	}
+	
+
+	/**
+	*	Gets all clues for range
+	*/
+	public function get_clues()
+	{
+		return $this->clues;
+	}
+
+
+	public function length()
+	{
+		return $this->pixels_count;
+	}
+
+
+	/**
+	*	Gets all row totals
+	*/
+	public function get_clues_length($clues = null)
+	{
+		if (is_null($clues)) {
+		    $clues = $this->clues[$this->direction];
+		}
+		if (count($clues) > 0) {
+			$length = count($clues) - 1 + array_sum(array_column($clues, 'length'));
+		} else {
+			$length = 0;
+		}
+		return $length;
+	}
+
+	public function get_pixel($pixel_index, $direction = null)
+	{
+		if ( is_null($direction) || $this->is_normal_direction($direction) ) {
+			return $this->pixels[$pixel_index];
+		} else {
+			return $this->pixels[$this->reverse_pixel($pixel_index)];
+		}
+	}
+
+
+	public function set_pixel($pixel_index, $pixel_value, $direction = null)
+	{
+		if ( is_null($direction) || $this->is_normal_direction($direction) ) {
+			$this->pixels[$pixel_index] = $pixel_value;
+		} else {
+			$this->pixels[$this->reverse_pixel($pixel_index)] = $pixel_value;
+		}
+	}
+
+
+	/**
+	* utility function for pixel state
+	*/
+	public function pixel_is_unsolved($pixel_index, $direction = null)
+	{
+		if ( is_null($direction) ) {
+			$direction = $this->direction;
+		}
+		return ( Nonogram_model::pixel_is_unsolved( $this->get_pixel($pixel_index, $direction) ) );
+	}
+
+	public function pixel_is_empty($pixel_index, $direction = null)
+	{
+		if ( is_null($direction) ) {
+			$direction = $this->direction;
+		}
+		return ( Nonogram_model::pixel_is_empty( $this->get_pixel($pixel_index, $direction) ) );
+	}
+
+	public function pixel_is_filled($pixel_index, $direction = null)
+	{
+		if ( is_null($direction) ) {
+			$direction = $this->direction;
+		}
+		return ( Nonogram_model::pixel_is_filled( $this->get_pixel($pixel_index, $direction) ) );
+	}
+
+	// Is this the using the normal direction or the reverse
+	public function is_normal_direction($direction = null)
+	{
+		if ( is_null($direction) ) {
+			return $this->direction; //Just return the current setting for the range
+		} else {
+			return $direction;
+		}
+	}
+
+	// Uses the directions array to return the "other" direction from the one passed in (only two directions)
+	public function other_direction($direction)
+	{
+		return !$direction;
+	}
+
+	// Set the main and reverse direction of the scans.
+	public function set_direction($direction)
+	{
+		$this->direction = $direction;
+	}
+
+
+	// Make the scans work in the other direction
+	public function reverse_direction()
+	{
+		$this->log('rd 10 : direction ' . json_encode($this->direction) );
+		$this->log('rd 30 : other direction ' . json_encode($this->other_direction($this->direction)) );
+		$this->set_direction($this->other_direction($this->direction));
+		$this->log('rd 90 : direction ' . json_encode($this->direction) );
+	}
+
+
+	public function reverse_clue($clue_index)
+	{
+		return ( $this->clues_count - ( $clue_index + 1 ) );
+	}
+
+
+	public function reverse_pixel($pixel_index)
+	{
+		return ( $this->length() + 1 - $pixel_index );
+	}
+
+
+	// Is this the using the normal direction or the reverse
+	public function fill_pixel($pixel_index, $direction = null)
+	{
+		if ( is_null($direction) ) {
+			$direction = $this->direction;
+		}
+		
+		$this->log('fp 200: pixel ' . $pixel_index);
+		if ( $this->pixel_is_unsolved($pixel_index, $direction) ) {
+			$this->log('fp 300: unsolved pixel ' . $pixel_index);
+			if ( $this->is_normal_direction($direction) ) {
+				$this->solution['fill'][] = $pixel_index;
+				$this->set_pixel($pixel_index, Nonogram_model::FILLED_PIXEL);
+			} else {
+				$this->solution['fill'][] = $this->reverse_pixel($pixel_index);
+				$this->set_pixel($this->reverse_pixel($pixel_index), Nonogram_model::FILLED_PIXEL);
+			}
+		}
+	}
+
+
+	public function normal_clue($clue_index, $direction = null)
+	{
+		if ( is_null($direction) ) {
+			$direction = $this->direction;
+		}
+		if ( $this->is_normal_direction($direction) ) {
+			return $clue_index;
+		} else {
+			return $this->reverse_clue($clue_index);
+		}
+	}
+
+
+	public function normal_pixel($pixel_index, $direction = null)
+	{
+		if ( is_null($direction) ) {
+			$direction = $this->direction;
+		}
+		if ( $this->is_normal_direction($direction) ) {
+			return $pixel_index;
+		} else {
+			return $this->reverse_pixel($pixel_index);
+		}
+	}
+
+
+	// We now know the start of a clue so we update the relevant information in the solution
+	public function set_clue_solved($clue_index, $clue_start, $direction=null) {
+		$this->log('scs 1: index ' . $clue_index . ' start ' . $clue_start);
+		if ( is_null($direction) ) {
+			$direction = true;
+		}
+		$clue_length = $this->clues[$clue_index]['length'];
+		if ( $direction ) {
+			$reverse = $this->other_direction($direction);
+			$clue_end = $clue_start + $clue_length - 1;
+		} else {
+			$reverse = $direction;
+			$direction = $this->other_direction($direction);
+			$clue_end = $clue_start;
+			$clue_start = $clue_end + 1 - $clue_length;
+		}
+		$reverse_start = $this->reverse_pixel($clue_start);
+		$reverse_end = $this->reverse_pixel($clue_end);
+
+		// Update the clue (for both directions) to fix the start and end positions
+		$this->clues[$clue_index]['start'] = $clue_start;
+		$this->clues[$clue_index][$direction]['begin'] = $clue_start;
+		$this->clues[$clue_index][$direction]['end'] = $clue_end;
+		$this->clues[$clue_index][$reverse]['begin'] = $reverse_start;
+		$this->clues[$clue_index][$reverse]['end'] = $reverse_end;
+
+		// Note in the solution where the clue is solved
+		// We want the clue solution to specify its position in the 'normal' direction
+		$this->solution['solved'][$clue_index]['start'] = $clue_start;
+
+		// Fill in any unsolved pixels up to the length of the clue
+		foreach (range($clue_start, $clue_end) AS $fill_index) {
+			//$this->log('direction ' . $direction . ' solved clue ' . $clue_index . ' at ' . $fill_index);
+			if ( $this->pixel_is_unsolved($fill_index) ) {
+				//echo "Emptying index " . $pixel_index . "<br/>";
+				$this->solution['fill'][] = $fill_index;
+				$this->set_pixel($fill_index, Nonogram_model::FILLED_PIXEL);
+			}
+		}
+
+		// Unless flush to the start or end of the range, the preceding and succeeding pixels must be marked empty.
+		$before_index = $clue_start - 1;
+		//$this->log('direction ' . $direction . ' empty pixel at ' . $before_index . ' for solved clue ' . $clue_index);
+		if ( ( $clue_start > 1 ) && ( $this->pixel_is_unsolved($before_index) ) ) {
+			//$this->log('direction ' . $direction . ' emptying pixel at ' . $before_index . ' for solved clue ' . $clue_index);
+			$this->solution['empty'][] = $this->normal_pixel($before_index);
+			$this->set_pixel($before_index, Nonogram_model::EMPTY_PIXEL);
+		}
+		$after_index = $clue_end + 1;
+		//$this->log('direction ' . $direction . ' empty pixel at ' . $after_index . ' for solved clue ' . $clue_index);
+		if ( ( $clue_end < $this->length() ) && ( $this->pixel_is_unsolved($after_index) ) ) {
+			//$this->log('direction ' . $direction . ' emptying pixel at ' . $after_index . ' for solved clue ' . $clue_index);
+			$this->solution['empty'][] = $this->normal_pixel($after_index);
+			$this->set_pixel($after_index, Nonogram_model::EMPTY_PIXEL);
+		}
+	}
+
+
+	/**
+	*	Extract the information from a row or column to make ranges for the unsolved clues
+	*/
+	public function get_subranges()
+	{
+
+		$ranges = array();
+		$solved_count = 0;
+		$unsolved_count = 0;
+		$start_clue = 0;
+		$start_pixel = 1;
+		foreach ($this->clues as $clue_index => $clue) {
+			// Clue is solved if it has a start entry greater than 0
+			if ( isset($clue['start']) && ( $clue['start'] !== 0 ) ) {
+				if ( $clue_index !== $start_clue ) {
+					$ranges[] = array('start_clue' => $start_clue, 'end_clue' => $clue_index - 1, 'start_pixel' => $start_pixel, 'end_pixel' => $clue['start'] - 2);
+					$this->log("gs 300 : subrange clues " . $start_clue . " to " . ($clue_index - 1) . " - pixels " . $start_pixel . " to " . ($clue['start'] - 2) );
+				}
+				$start_clue = $clue_index + 1;
+				$start_pixel = $clue['start'] + $clue['length'] + 1;
+				$solved_count++;
+			} else {
+				$unsolved_count++;
+			}
+		}
+		// Are there any unsaved ranges ?
+		if ( $start_clue !== $this->clues_count ) {
+			$ranges[] = array('start_clue' => $start_clue, 'end_clue' => count($this->clues) - 1, 'start_pixel' => $start_pixel, 'end_pixel' => $this->length());
+			$this->log("gs 300 : (sub)range clues " . $start_clue . " to " . (count($this->clues) - 1) . " - pixels " . $start_pixel . " to " . $this->length() );
+		}
+		return $ranges;
+	}
+
+
+	public function create_possible_clue_ranges()
+	{
+		$normal_pixel = 1;
+		$reverse_pixel = 1;
+		$reverse = $this->other_direction($this->direction);
+		if ( $this->clues_count > 0 ) {
+			foreach (range(0, $this->clues_count - 1) AS $clue_index) {
+				do {
+					//$this->log('cpcr 50: clue ' . $clue_index . ' pixel ' . $normal_pixel);
+					while ($this->pixel_is_empty($normal_pixel) ) {
+						$normal_pixel++;
+					}
+					//$this->log('cpcr 200: clue ' . $clue_index . ' begin ' . $normal_pixel);
+					$normal_begin = $normal_pixel;
+					$normal_end = $normal_pixel + $this->clues[$clue_index]['length'] - 1;
+					//$this->log('cpcr 220: begin ' . $normal_begin . ' end ' . $normal_end);
+					while ( ( $normal_pixel < $normal_end) && ! $this->pixel_is_empty($normal_pixel) ) {
+						$normal_pixel++;
+						//$this->log('cpcr 240: pixel ' . $normal_pixel);
+					}
+				} while ( $this->pixel_is_empty($normal_pixel) || ( $normal_pixel < $normal_end ) );
+
+				//$this->log('cpcr 300: clue ' . $clue_index . ' end ' . $normal_end);
+				$this->clues[$clue_index][$this->direction]['begin'] = $normal_begin;
+				$this->clues[$clue_index][$this->direction]['end'] = $normal_end;
+				$normal_pixel = $normal_end + 2;
+				//$this->log('cpcr 400: clue ' . $clue_index . ' pixel ' . $normal_pixel);
+
+				$reverse_clue_index = $this->reverse_clue($clue_index);
+				do {
+
+					//$this->log('cpcr 510: clue ' . $reverse_clue_index . ' pixel ' . $reverse_pixel);
+					while ( $this->pixel_is_empty($this->reverse_pixel($reverse_pixel)) ) {
+						$reverse_pixel++;
+					}
+					//$this->log('cpcr 600: clue ' . $reverse_clue_index . ' begin ' . $reverse_pixel);
+					$reverse_begin = $reverse_pixel;
+					$reverse_end = $reverse_pixel + $this->clues[$reverse_clue_index]['length'] - 1;
+					//$this->log('cpcr 620: begin ' . $reverse_begin . ' end ' . $reverse_end);
+					while ( ( $reverse_pixel < $reverse_end) && ! $this->pixel_is_empty($this->reverse_pixel($reverse_pixel)) ) {
+						$reverse_pixel++;
+						//$this->log('cpcr 640: pixel ' . $reverse_pixel);
+					}
+				} while ( $this->pixel_is_empty($this->reverse_pixel($reverse_pixel))  || ( $reverse_pixel < $reverse_end ) );
+
+				//$this->log('cpcr 700: clue ' . $clue_index . ' end ' . $reverse_end);
+				$this->clues[$reverse_clue_index][$reverse]['begin'] = $reverse_begin;
+				$this->clues[$reverse_clue_index][$reverse]['end'] = $reverse_end;
+				$reverse_pixel = $reverse_end + 2;
+				//$this->log('cpcr 800: clue ' . $clue_index . ' pixel ' . $reverse_pixel);
+			}
+		}
+		
+	}
+
+
+	public function normal_scan_for_must_fill() {
+		//$initial_clues = $this->clues;
+		$clue_index = 0;
+		$clue = $this->clues[$clue_index];
+		$pixel_index = $clue[$this->direction]['begin'];
+		$clue_end = $clue[$this->direction]['end'];
+		while ( ( $pixel_index < $clue_end ) && ( ! $this->pixel_is_filled($pixel_index) ) ) {
+			$pixel_index++;
+		}
+
+		if ( ( $pixel_index < $clue_end ) ) {
+
+			$this->log('nsfmf 1 :from ' . $pixel_index . ' to ' . $clue_end);
+			foreach (range($pixel_index, $clue_end) AS $fill_index) {
+				$this->log('nsfmf 2: pixel ' . $fill_index);
+				if ( $this->pixel_is_unsolved($fill_index) ) {
+					$this->log('nsfmf 3: unsolved pixel ' . $fill_index);
+					$this->solution['fill'][] = $fill_index;
+					$this->set_pixel($fill_index, Nonogram_model::FILLED_PIXEL);
+				}
+			}
+		}
+	}
+
+
+	public function reverse_scan_for_must_fill() {
+		//$initial_clues = $this->clues;
+		$clue_index = $this->clues_count - 1;
+		$clue = $this->clues[$clue_index];
+		$pixel_index = $this->reverse_pixel($clue[! $this->direction]['begin']);
+		$clue_end = $this->reverse_pixel($clue[! $this->direction]['end']);
+		while ( ( $pixel_index > $clue_end ) && ( ! $this->pixel_is_filled($pixel_index) ) ) {
+			$pixel_index--;
+		}
+
+		if ( ( $pixel_index > $clue_end ) ) {
+
+			$this->log('rsfmf 1 :from ' . $pixel_index . ' to ' . $clue_end);
+			foreach (range($clue_end, $pixel_index) AS $fill_index) {
+				$this->log('rsfmf 2: pixel ' . $fill_index);
+				if ( $this->pixel_is_unsolved($fill_index) ) {
+					$this->log('rsfmf 3: unsolved pixel ' . $fill_index);
+					$this->solution['fill'][] = $fill_index;
+					$this->set_pixel($fill_index, Nonogram_model::FILLED_PIXEL);
+				}
+			}
+		}
+	}
+
+
+	public function scan_for_must_fill_middles() {
+		//$initial_clues = $this->clues;
+		foreach ($this->clues AS $clue_index => $clue) {
+			if ( $this->reverse_pixel($clue[! $this->direction]['end']) <= $clue[$this->direction]['end'] ) {
+				$this->log('sfmfm 1 :from ' . $this->reverse_pixel($clue[! $this->direction]['end']) . ' to ' . $clue[$this->direction]['end']);
+				foreach (range($this->reverse_pixel($clue[! $this->direction]['end']), $clue[$this->direction]['end']) AS $pixel_index) {
+					$this->log('sfmfm 2: pixel ' . $pixel_index);
+					if ( $this->pixel_is_unsolved($pixel_index) ) {
+						$this->log('sfmfm 3: unsolved pixel ' . $pixel_index);
+						$this->solution['fill'][] = $pixel_index;
+						$this->set_pixel($pixel_index, Nonogram_model::FILLED_PIXEL);
+					}
+				}
+			}
+		}
+	}
+
+
+	public function normal_scan_for_multiple_fills() {
+		//$initial_clues = $this->clues;
+		$pixel_index = 1;
+		$filled_chunks = array();
+		$reverse = $this->other_direction($this->direction);
+		$this->log('nsfmf 50 : scanning');
+		while ( $pixel_index < $this->length() ) {
+			while ( ( $pixel_index <= $this->length() ) && $this->pixel_is_unsolved($pixel_index) ) {
+				$pixel_index++;
+			}
+			// Did we find any "solved" pixels?
+			if ( $pixel_index <= $this->length() ) {
+				// Did we find a "filled" pixel
+				if ( $this->pixel_is_filled($pixel_index) ) {
+					$filled_start = $pixel_index;
+					while ( ( $pixel_index <= $this->length() ) && $this->pixel_is_filled($pixel_index) ) {
+						$pixel_index++;
+					}
+					$filled_length = $pixel_index - $filled_start;
+					$filled_chunks[] = array('begin' => $filled_start, 'end' => $pixel_index - 1, 'length' => $filled_length, 'clues' => array());
+				} else {
+					while ( ( $pixel_index <= $this->length() ) && $this->pixel_is_empty($pixel_index) ) {
+						$pixel_index++;
+					}
+				}
+			}
+		}
+		if ( count($filled_chunks) > 0 ) {
+			$first_clue = 0;
+			foreach ($filled_chunks AS $chunk_index => $filled_chunk) {
+				$clue_index = $first_clue;
+				while ( $clue_index < $this->clues_count ) {
+					$clue = $this->clues[$clue_index];
+					if ( ( $clue[$this->direction]['begin'] <= $filled_chunk['begin'] ) && ( $this->reverse_pixel($clue[$reverse]['begin']) >= $filled_chunk['begin'] ) ) {
+						if ( $clue['length'] >= $filled_chunk['length'] ) {
+							$filled_chunks[$chunk_index]['clues'][] = $clue_index;
+						}
+					}
+					$clue_index++;
+				}
+			}
+			foreach ($filled_chunks AS $chunk_index => $filled_chunk) {
+				// If it can be in only one clue we can try making inferences from the filled chunk
+				if ( count($filled_chunks[$chunk_index]['clues']) == 1 ) {
+					$clue_index = $filled_chunks[$chunk_index]['clues'][0];
+					$clue = $this->clues[$clue_index];
+					$chunk_begin = $filled_chunk['begin'];
+					$chunk_end = $filled_chunk['end'];
+					$this->log('nsfmf 780 : chunk begin ' . $chunk_begin . ' length ' . $filled_chunk['length'] . ' clue_begin ' . $clue[$this->direction]['begin']);
+					$must_fill_length = $clue['length'] - ($chunk_begin - $clue[$this->direction]['begin']);
+					$this->log('nsfmf 800 : filling from ' . $chunk_begin . ' to ' . ($chunk_begin + $must_fill_length - 1));
+					$this->log('nsfmf 820 : chunk begin ' . $chunk_begin . ' length ' . $must_fill_length . ' clue_begin ' . $clue[$this->direction]['begin']);
+					// Adjust the clue limits
+					$this->clues[$clue_index][$this->direction]['begin'] = max($chunk_end + 1 - $clue['length'], $this->clues[$clue_index][$this->direction]['begin']);
+					$this->clues[$clue_index][$reverse]['begin'] = max($this->reverse_pixel($chunk_begin + $clue['length'] - 1), $this->clues[$clue_index][$reverse]['begin']);
+					$this->log('nsfmf 840 : clue begin ' . $this->clues[$clue_index][$this->direction]['begin']);
+					$this->log('nsfmf 850 : clue rev begin ' . $this->clues[$clue_index][$reverse]['begin']);
+					/*
+					// Need to fill some of the chunk
+					foreach (range($chunk_start, $chunk_start + $must_fill_length - 1) AS $fill_index) {
+						$this->log('nsfmf 850 : filling ' . $fill_index);
+						$this->fill_pixel($fill_index);
+					}
+					*/
+				}
+			}
+		}
+	}
+
+
+	public function scan_for_clue_slots($direction = null) {
+		if ( is_null($direction) ) {
+			$direction = $this->direction;
+		}
+		$clues = range(0, $this->clues_count - 1);
+		if ( $this->is_normal_direction($direction) ) {
+			$next_step = 1;
+			$pixel_index = 1;
+			$clue_index = 0;
+		} else {
+			$next_step = -1;
+			$pixel_index = $this->length();
+			$clue = $this->clue_count;
+			rsort($clues);
+		}
+		$last_pixel_index = $this->length() + 1 - $pixel_index;
+		// Scan the possible range for each clue and try to adjust the limits based on the presence of filled or empty pixels
+		//$pixel_index = 1;
+		foreach ($clues AS $clue_index) {
+			$clue = $this->clues[$clue_index];
+			//echo "Clue index is " . $clue_index . "<br/>";
+			$clue_length = $clue['length'];
+			if ( $pixel_index < $clue[$direction]['begin']) {
+				$pixel_index = $clue[$direction]['begin'];
+			}
+			//Find the earliest gap in which the clue could fit
+			$gap_length = 0;
+			while ( ( $gap_length < $clue_length ) && ( $pixel_index != ( $last_pixel_index + $next_step) ) ) {
+				$pixel_index = $pixel_index + ( $gap_length * $next_step);
+				//Find the first pixel in the clue's possible range which is not marked empty - this could be the start of a gap in which the clue will fit
+				while ( $this->pixel_is_empty($pixel_index) ) {
+					$pixel_index = $pixel_index + $next_step;
+				}
+				$gap_start = $pixel_index;
+				$gap_length = 0;
+				//$this->log('reverse_clue : ' . $this->reverse_clue($clue_index));
+				//$end_clue_range = $this->reverse_pixel($this->clues[$this->reverse_clue($clue_index)][! $this->direction]['begin']);
+				//$this->log('end range : ' . $end_clue_range);
+				//Go to last pixels in the clue's possible range which is not marked empty
+				do {
+					$gap_length++;
+					$check_index = $gap_start + ($gap_length * $next_step);
+					//$this->log('sfcs 10: check_index : ' . $check_index);
+				}
+				//while ( ( $gap_length < $clue_length ) && ( ! $this->pixel_is_empty($check_index) ) && ( $check_index <= $end_clue_range ) );
+				while ( ( $gap_length < $clue_length ) && ( ! $this->pixel_is_empty($check_index) ) );
+				//while ( ( $gap_length < $clue_length ) && ( ! $this->pixel_is_empty($check_index) ) );
+			}
+
+			if ( $gap_length < $clue_length ) {
+				//echo "changing earliest start to " . $gap_start . "<br/>";
+				$this->clues[$clue_index][$direction]['begin'] = $gap_start;
+				$this->clues[$clue_index][$direction]['end'] = $gap_start + $clue_length -1;
+			}
+
+		}
+	}
+
+
+	public function reverse_scan_for_clue_slots() {
+		// Scan the possible range for each clue and try to adjust the limits based on the presence of filled or empty pixels
+		$pixel_index = 1;
+		foreach ($this->clues AS $clue_index => $clue) {
+			//echo "Clue index is " . $clue_index . "<br/>";
+			$clue_length = $clue['length'];
+			if ( $pixel_index < $clue[$this->direction]['begin']) {
+				$pixel_index = $clue[$this->direction]['begin'];
+			}
+			//Find the earliest gap in which the clue could fit
+			$gap_length = 0;
+			while ( ( $gap_length < $clue_length ) && ( $pixel_index <= $this->length() ) ) {
+				$pixel_index = $pixel_index + $gap_length;
+				//Find the first pixel in the clue's possible range which is not marked empty - this could be the start of a gap in which the clue will fit
+				while ( $this->pixel_is_empty($pixel_index) ) {
+					$pixel_index++;
+				}
+				$gap_start = $pixel_index;
+				$gap_length = 0;
+				//$this->log('reverse_clue : ' . $this->reverse_clue($clue_index));
+				//$end_clue_range = $this->reverse_pixel($this->clues[$this->reverse_clue($clue_index)][! $this->direction]['begin']);
+				//$this->log('end range : ' . $end_clue_range);
+				//Go to last pixels in the clue's possible range which is not marked empty
+				do {
+					$gap_length++;
+					$check_index = $gap_length + $gap_start;
+					//$this->log('sfcs 10: check_index : ' . $check_index);
+				}
+				//while ( ( $gap_length < $clue_length ) && ( ! $this->pixel_is_empty($check_index) ) && ( $check_index <= $end_clue_range ) );
+				while ( ( $gap_length < $clue_length ) && ( ! $this->pixel_is_empty($check_index) ) );
+				//while ( ( $gap_length < $clue_length ) && ( ! $this->pixel_is_empty($check_index) ) );
+			}
+
+			//if ( $gap_start > $clue['begin']) {
+			if ( $gap_length < $clue_length ) {
+				//echo "changing earliest start to " . $gap_start . "<br/>";
+				$this->clues[$clue_index][$this->direction]['begin'] = $gap_start;
+				$this->clues[$clue_index][$this->direction]['end'] = $gap_start + $clue_length -1;
+			}
+
+			//$this->clues[$this->direction][$clue_index] = $clue;
+		}
+	}
+
+
+	// If a pixel does not lie within any possible clue range then it can and should be marked as empty
+	public function scan_for_gaps_outside_possible_ranges() {
+		// Scan for gaps before first clue
+		$reverse = $this->other_direction($this->direction);
+		$clue_ranges = array();
+		$start_clue = 0;
+		// Must the first clue start after the start of the range?
+		if ( 1 < $this->clues[0][$this->direction]['begin']) {
+			foreach (range(1 , $this->clues[0][$this->direction]['begin'] - 1) AS $pixel_index) {
+				if ( $this->pixel_is_unsolved($pixel_index) ) {
+					//echo "Emptying index " . $pixel_index . "<br/>";
+					$this->log("sfgopr 200: Emptying " . $pixel_index . " before first clue begin " . $this->clues[0][$this->direction]['begin']);
+					$this->solution['empty'][] = $pixel_index;
+					$this->set_pixel($pixel_index, Nonogram_model::EMPTY_PIXEL);
+					//$this->pixels[$pixel_index] = Nonogram_model::EMPTY_PIXEL;
+				}
+			}
+		}
+
+		// Scan for gaps between clues
+		// A gap exists if the latest possible pixel for clue "n" is less than the earliest possible pixel for clue "n+1".
+		// (Strictly speaking, for a gap there needs to be at least one pixel which is between the possible ranges)
+		if ( count($this->clues) > 1 ) {
+			// we scan for the first clue to the next to last (n-2) 
+			// because we want to compare each to the next (0 to 1, 1 to 2,.... , n-2 to n-1)
+			foreach (range(0, $this->clues_count - 2) AS $clue_index) {
+				$next_clue_index = $clue_index + 1;
+				$this_clue_end = $this->reverse_pixel($this->clues[$clue_index][$reverse]['begin']);
+				$next_clue_begin = $this->clues[$next_clue_index][$this->direction]['begin'];
+			
+				$this->log("sfgopr : Checking for gap between " . $this_clue_end . " and " . $next_clue_begin);
+				if ( ( $this_clue_end + 1 ) < $next_clue_begin ) {
+					$clue_ranges[] = array('first' => $start_clue, 'last' => $clue_index);
+					$start_clue = $next_clue_index;
+					foreach (range($this_clue_end + 1 , $next_clue_begin - 1) AS $pixel_index) {
+						if ( $this->pixel_is_unsolved($pixel_index) ) {
+							//echo "Emptying index " . $pixel_index . "<br/>";
+							$this->log("sfgopr 700: Emptying intermediate pixel " . $pixel_index . " between " . $this_clue_end . " and " . $next_clue_begin . " at " . $clue_index);
+							$this->solution['empty'][] = $pixel_index;
+							$this->set_pixel($pixel_index, Nonogram_model::EMPTY_PIXEL);
+						}
+					}
+				}
+			}
+		}
+
+		// Must the last clue end before the end of the range?
+		if ( $this->length() > $this->reverse_pixel($this->clues[$this->clues_count - 1][$reverse]['begin']) ) {
+			// All pixels after the last possible pixel for the last clue must be empty
+			$this->log("sfgopr 700: Gap from " . ( $this->reverse_pixel($this->clues[$this->clues_count - 1][$reverse]['begin']) + 1 ) . " to " . $this->length());
+			foreach (range($this->reverse_pixel($this->clues[$this->clues_count - 1][$reverse]['begin']) + 1, $this->length()) AS $pixel_index) {
+				if ( $this->pixel_is_unsolved($pixel_index) ) {
+					//echo "Emptying index " . $pixel_index . "<br/>";
+					$this->log("sfgopr 800: Emptying " . $pixel_index . " after last clue begin " . $this->reverse_pixel($this->clues[$this->clues_count - 1][$reverse]['begin']));
+					$this->solution['empty'][] = $pixel_index;
+					$this->set_pixel($pixel_index, Nonogram_model::EMPTY_PIXEL);
+				}
+			}
+		}
+		if ( count($clue_ranges) > 0 ) {
+			$clue_ranges[] = array('first' => $start_clue, 'last' => $this->clues_count - 1);
+			//need to split into sub ranges
+		}
+		
+	}
+
+	public function normal_scan_for_solved_clues() {
+		// We will scan in each direction
+		// Is first clue solved
+		$clue_index = 0;
+		$pixel_index = 1;
+		$check_clues = ($this->clues_count > 0);
+		while ( ($clue_index < $this->clues_count) && $check_clues ) {
+		//do {
+			// Has clue been solved already? (May be second pass)
+			if ( $this->clues[$clue_index]['start'] !== 0 ) {
+				$this->log('nscfs 10 : direction ' . json_encode($this->direction) . ' already solved clue ' . $clue_index . ' at ' . $this->clues[$clue_index]['start']);
+				$pixel_index = $this->clues[$clue_index][$this->direction]['begin'] + $this->clues[$clue_index]['length'] + 1;
+				$clue_index++;
+			} else {
+				$pixel_index = max($pixel_index, $this->clues[$clue_index][$this->direction]['begin']);
+				$this->log('nscfs 20 : normal direction checking clue ' . $clue_index . ' at ' . $pixel_index . ' and ' . $this->reverse_pixel($this->clues[$clue_index][$this->other_direction($this->direction)]['end']) );
+				if ( $this->pixel_is_filled($pixel_index) || ($pixel_index == $this->reverse_pixel($this->clues[$clue_index][$this->other_direction($this->direction)]['end'])) ) {
+
+					$this->log('nscfs 30 : direction ' . json_encode($this->direction) . ' solved clue ' . $clue_index . ' at ' . $pixel_index);
+					$this->set_clue_solved($clue_index, $pixel_index);
+					//$this->clues[$clue_index][$this->direction]['start'] = $pixel_index;
+					foreach (range($this->clues[$clue_index][$this->direction]['begin'], $this->clues[$clue_index][$this->direction]['begin'] + $this->clues[$clue_index]['length'] - 1) AS $fill_index) {
+						if ( $this->pixel_is_unsolved($fill_index) ) {
+							//echo "Emptying index " . $pixel_index . "<br/>";
+							$this->solution['fill'][] = $this->normal_pixel($fill_index);
+							$this->set_pixel($pixel_index, Nonogram_model::FILLED_PIXEL);
+						}
+					}
+					$this->log('nscfs 60 : clue ' . json_encode($this->clues[$clue_index]));
+					$pixel_index = $this->clues[$clue_index][$this->direction]['begin'] + $this->clues[$clue_index]['length'] + 1;
+					$clue_index++;
+				} else {
+					$check_clues = false;
+				}
+			}
+		//} while ( ($clue_index < $this->clues_count) && $check_clues );
+		}
+	}
+
+
+	public function reverse_scan_for_solved_clues() {
+		// We will scan in reverse direction
+		// Is last clue solved
+		$clue_index = $this->clues_count - 1;
+		$check_clues = ($this->clues_count > 0);
+		$pixel_index = $this->length();
+		$reverse = $this->other_direction($this->direction);
+		while ( ($clue_index >= 0) && $check_clues ) {
+		//do {
+			// Has clue been solved already? (May be second pass)
+			if ( $this->clues[$clue_index]['start'] !== 0 ) {
+				$this->log('rscfs 10 : direction ' . json_encode($reverse) . ' already solved clue ' . $clue_index . ' at ' . $this->clues[$clue_index]['start']);
+				$pixel_index = $pixel_index - ( $this->clues[$clue_index]['length'] + 1);
+				$clue_index--;
+			} else {
+				$pixel_index = min ($pixel_index, $this->reverse_pixel($this->clues[$clue_index][$reverse]['begin']));
+				//$pixel_index = $this->clues[$clue_index][$reverse]['begin'];
+				$this->log('nscfs 20 : reverse direction checking clue ' . $clue_index . ' at ' . $pixel_index . ' and ' . $this->clues[$clue_index][$this->direction]['end'] );
+				if ( $this->pixel_is_filled($pixel_index) || ($pixel_index == $this->clues[$clue_index][$this->direction]['end']) ) {
+
+					$this->log('rscfs 30 : direction ' . json_encode($reverse) . ' solved clue ' . $clue_index . ' at ' . $pixel_index);
+					$this->set_clue_solved($clue_index, $pixel_index, $reverse);
+					//$this->clues[$clue_index][$this->direction]['start'] = $pixel_index;
+					foreach (range($pixel_index + 1 - $this->clues[$clue_index]['length'], $pixel_index) AS $fill_index) {
+						$this->log('rscfs 40 : direction ' . json_encode($reverse) . ' solved clue ' . $clue_index . ' filling ' . $fill_index);
+						if ( $this->pixel_is_unsolved($fill_index) ) {
+							$this->log('rscfs 50 : direction ' . json_encode($reverse) . ' solved clue ' . $clue_index . ' filling ' . $fill_index);
+							//echo "Emptying index " . $pixel_index . "<br/>";
+							$this->solution['fill'][] = $fill_index;
+							$this->set_pixel($pixel_index, Nonogram_model::FILLED_PIXEL);
+						}
+					}
+					$this->log('rscfs 60 : clue ' . json_encode($this->clues[$clue_index]));
+					$clue_index--;
+				} else {
+					$check_clues = false;
+				}
+			}
+		//} while ( ($clue_index < $this->clues_count) && $check_clues );
+		}
+	}
+
+
+	public function merge_solution($subrange_scope, $subrange_solution)
+	{
+		$clue_offset = $subrange_scope['start_clue'];
+		$pixel_offset = $subrange_scope['start_pixel'] - 1;
+		if ( isset($subrange_solution['solved']) && ( count($subrange_solution['solved']) > 0 ) ) {
+			foreach ($subrange_solution['solved'] as $subrange_clue_index => $subrange_clue) {
+				$range_clue_index = $clue_offset + $subrange_clue_index;
+				$range_clue_start = $pixel_offset + $subrange_clue['start'];
+				if ( ! isset($this->solution['solved']) || ! isset($this->solution['solved'][$range_clue_index]) ) {
+					$this->solution['solved'][$range_clue_index]['start'] = $range_clue_start;
+				}
+			}
+		}
+
+		if ( isset($subrange_solution['fill']) && ( count($subrange_solution['fill']) > 0 ) ) {
+			$range_fill = array();
+			foreach ($subrange_solution['fill'] as $subrange_pixel) {
+				$range_pixel = $pixel_offset + $subrange_pixel;
+				$range_fill[] = $range_pixel;
+			}
+			$this->solution['fill'] = array_merge($this->solution['fill'], $range_fill);
+			sort($this->solution['fill']);
+		}
+
+		if ( isset($subrange_solution['empty']) && ( count($subrange_solution['empty']) > 0 ) ) {
+			$range_empty = array();
+			foreach ($subrange_solution['empty'] as $subrange_pixel) {
+				$range_pixel = $pixel_offset + $subrange_pixel;
+				$range_empty[] = $range_pixel;
+			}
+			$this->solution['empty'] = array_merge($this->solution['empty'], $range_empty);
+			sort($this->solution['empty']);
+		}
+		$this->solution['debug_log'] = array_merge($subrange_solution['debug_log'], $this->solution['debug_log']);
+	}
+
+
+	// If we have now solved all clues we want to ensure that there are no lingering unsolved pixels (which must be empty)
+	public function tidy_unsolved_pixels() {
+		// Have we solved any clues this time ?
+		if ( isset($this->solution['solved']) && ( count($this->solution['solved'] > 0) ) ) {
+			$this->log('tup 120 : some clues solved');
+			// Are all clues in this range now solved
+			$all_clues_solved = true;
+			foreach ( $this->clues AS $clue ) {
+				// If any clue is unsolved then all clues are not solved
+				if ( $clue['start'] === 0 ) {
+					$all_clues_solved = false;
+				}
+			}
+			if ( $all_clues_solved ) {
+				$this->log('tup 520 : all clues solved');
+				$unsolved_pixels = array();
+				foreach ( range(1, $this->length()) AS $pixel_index ) {
+					if ( $this->pixel_is_unsolved($pixel_index) ) {
+						$unsolved_pixels[] = $pixel_index;
+					}
+				}
+				if ( count($unsolved_pixels) > 0 ) {
+					$this->log('tup 820 : marking ' . count($unsolved_pixels) . ' pixels empty');
+					$this->solution['empty'] = array_merge($this->solution['empty'], $unsolved_pixels);
+					sort($this->solution['empty']);
+				}
+				
+			}
+		}
+	}
+
+
+	public function scan_range()
+	{
+		$subranges = array();
+		$subranges = $this->get_subranges();
+		$this->solution['subranges'] = $subranges;
+		if ( ( count($subranges) > 1 ) ||  ( count($subranges) == 1 ) && ( ( $subranges[0]['start_clue'] > 0) || ( $subranges[0]['end_clue'] < ( $this->clues_count - 1) ) ) ) {
+		//if ( ( count($subranges) > 1 ) ) {
+			foreach($subranges as $subrange_index => $subrange_scope) {
+				$subrange_pixels = array_merge(array(0), array_slice($this->pixels, $subrange_scope['start_pixel'] - 1, $subrange_scope['end_pixel'] + 1 - $subrange_scope['start_pixel']) );
+				unset($subrange_pixels[0]);
+				$subrange = new Range_model(array_slice($this->clues, $subrange_scope['start_clue'], $subrange_scope['end_clue'] + 1 - $subrange_scope['start_clue']), $subrange_pixels, $this->level + 1);
+				$this->solution['subparams'][$subrange_index] = $subrange->get_params();
+
+				$subrange_solution = $subrange->solve();
+				$this->merge_solution($subrange_scope, $subrange_solution);
+			}
+			$this->tidy_unsolved_pixels();
+			$this->solution['outcome'] = 'range_changed';
+		} elseif ( count($subranges) == 0 ) {
+			// All/any clues in this range are already solved
+			$this->solution['outcome'] = 'already_solved';
+		} else {
+
+			$this->solution['outcome'] = 'range_scanned';
+			$this->create_possible_clue_ranges();
+			$this->scan_for_must_fill_middles();
+			$this->normal_scan_for_must_fill();
+			$this->reverse_scan_for_must_fill();
+			$this->normal_scan_for_multiple_fills();
+			$this->scan_for_clue_slots();
+			$this->scan_for_gaps_outside_possible_ranges();
+			$this->normal_scan_for_solved_clues();
+			$this->reverse_scan_for_solved_clues();
+			/*
+			*/
+			//$initial_clues = $this->clues;
+
+			$this->solution['outcome'] = 'range_changed';
+		}
+	}
+
+
+	/**
+	* Solve clues for range
+	*/
+	public function solve()
+	{
+		$this->scan_range();
+		$this->solution['length'] = $this->clues_length;
+		$this->solution['params'] = $this->get_params();
+		$this->solution['direction'] = $this->direction;
+		return $this->solution;
+	}
+
+
+} 

@@ -1,0 +1,531 @@
+body {
+	background: seashell;
+	color: darkslategrey;
+	font-family: verdana, helvetica, arial, sans-serif;
+	font-size: 100%; 
+	padding: 0;
+	border-width: 0;
+	margin: 0;
+}
+
+.set_font {
+	font-family: verdana, helvetica, arial, sans-serif;
+	font-size: 12pt;
+}
+
+.hide {
+	visibility: hidden;
+}
+
+h1 {
+	font-size: 2em;
+	text-align: center;
+	margin: 0.3em 0;
+}
+
+h2 {
+	text-align:center;
+	font-size: 1.5em;
+	margin: 0.2em 0;
+}
+
+ul {
+	list-style: none;
+}
+
+#header {
+	/*font-family: palatino, helvetica, arial, sans-serif;*/
+	background: seashell;
+	color: darkslategrey;
+	text-align: center;
+	margin-bottom: 1em;
+}
+
+#header h1 {
+	font-size: 2em;
+	text-align: center;
+	border-style: none;
+	border-width: 1px;
+	margin: auto;
+}
+
+#nav-menu {
+	margin-bottom: 0.5em;
+}
+
+#nav-menu ul {
+	font-size: 0.8em;
+	text-align: center;
+	border-style: none;
+	border-width: 1px;
+	margin: auto;
+	padding: 0;
+	list-style: none;
+	width: 90%;
+}
+
+#nav-menu li  {
+	display: inline;
+	text-align: center;
+	padding-left: 5%;
+	padding-right: 5%;
+	margin-left: auto;
+	margin-right: auto;
+	border-style: solid;
+	color: seashell;
+	background: darkslategrey;
+}
+
+#nav-menu li:first-child  {
+	border-left: solid;
+}
+
+#nav-menu li span {
+	margin-left: auto;
+	margin-right: auto;
+	text-decoration: none;
+}
+
+#nav-menu li:hover {
+	color: dimgrey;
+	background: lightgrey;
+	border-style: solid;
+}
+
+.choose_duplicates {
+	background: darkslategrey;
+	color: seashell;
+}
+
+
+.choose_duplicates h1 span {
+	border-bottom-style: dashed;
+	border-width: 1;
+}
+
+.choose_duplicates h3{
+	text-align: center;
+}
+
+#file_list_div{
+	background: seashell;
+	color: darkslategrey;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+li.xml_file_row {
+	text-transform:uppercase;
+	text-shadow: 2px 2px 2px #555;
+}
+
+li.xml_file_row:hover span, li.xml_file_row:hover li span{
+	color: seashell;
+	background: darkslategrey;
+}
+
+li.xml_file_row li:hover span {
+	background: teal;
+	color: yellow;
+}
+
+li.file_option {
+	text-align: center;
+	display: inline;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+li.file_option:hover {
+	font-style: normal;
+	text-decoration: none;
+}
+
+ul.file_list {
+	margin-right: 25%;
+	width: 75%;
+	text-align: right;
+}
+
+span.xml_file {
+	margin-left: 1em;
+	width: 50%;
+	text-align: right;
+}
+
+li.xml_file_row ul {
+	margin-right: 1em;
+	display: inline;
+	border: none;
+	border-width: 1px;
+	text-align: right;
+	visibility: hidden;
+}
+
+li.xml_file_row:hover ul {
+	visibility: visible;
+}
+
+li.xml_file_row ul li {
+	display: inline;
+}
+
+li.xml_file_row:hover ul li {
+	display: inline;
+}
+
+li.xml_file_row {
+	text-align: right;
+	border-width: 1;
+	margin-top: 0.2em;
+	width: 90%;
+}
+
+.keep_file {
+	color: darkslategrey;
+	font-size: 0.8em;
+}
+
+.remove_file {
+	color: red;
+	font-size: 0.8em;
+}
+
+.folders {
+	color: darkslategrey;
+	font-size: 0.8em;
+	margin-left: 1em;
+	margin-right: 1em;
+	border-style: solid;
+	border-width: 1;
+}
+
+.folder_delete_text {
+	margin-left: 0;
+	margin-right: 0;
+	color: darkslategrey;
+	font-style: italic;
+	vertical-align: top;
+}
+
+.folder_delete_checkbox {
+	margin-left: 2em;
+	margin-right: 0;
+	border-style: none;
+}
+
+.dup_folder_delete_checkbox {
+	margin-left: 2em;
+	margin-right: 0;
+	border-style: none;
+}
+
+.clickable_span {
+	border-style: none;
+	border-width: 0;
+	vertical-align: top;
+}
+
+.clickable_span:hover {
+	background-color: seashell;
+}
+
+.folder_set {
+	color: darkslategrey;
+}
+
+.this_folder {
+	vertical-align: top;
+}
+
+.other_folder {
+	background-color: lightgrey;
+	border-color: dimgrey;
+	margin-left: 2em;
+	margin-right: 2em;
+	border-style: double;
+	border-width: 1;
+	vertical-align: top;
+}
+
+.same_folder {
+	color: maroon;
+	background-color: lightgrey;
+	border-color: dimgrey;
+	margin-left: 2em;
+	margin-right: 2em;
+	border-style: double;
+	border-width: 1;
+	vertical-align: top;
+}
+
+.parent_folder {
+	color: orchid;
+}
+
+.child_folder {
+	color: fuchsia;
+}
+
+.all_other_folder {
+	color: navy;
+}
+
+.some_other_folder {
+	color: cadetblue;
+}
+
+.all_this_folder {
+	color: royalblue;
+}
+
+.file_pairs {
+	display: table;
+	margin-left: 3em;
+	margin-right: 3em;
+	padding-left: 1em;
+	padding-right: 1em;
+	border-style: dashed;
+	border-width: 1;
+	border-color: darkslategrey;
+}
+
+.file_pair {
+	display: table-row;
+}
+
+.this_file {
+	display: table-cell;
+	color: darkslategrey;
+	background-color: seashell;
+	padding-right: 1em;
+	/* width: 50%; */
+	/* border-right: 3; */
+}
+
+.this_file_name {
+	vertical-align: top;
+}
+
+.other_file {
+	display: table-cell;
+	/* color: dimgrey; */
+	padding-left: 1em;
+}
+
+.other_file_name {
+	vertical-align: top;
+}
+
+#text_div {
+	margin: 0 auto;
+	text-align: center;
+}
+
+#duplicates ol {
+	margin: auto;
+}
+
+#duplicates li {
+	list-style-type: none;
+}
+
+#image_div {
+	margin: auto;
+	text-align: center;
+}
+
+#duplicate_files {
+	margin: auto;
+	border-collapse: collapse;
+}
+
+.duplicate_thumbnail {
+	text-align: center;
+}
+
+.duplicate_file_list ol {
+	list-style-type: none;
+	margin: 0;
+}
+
+.duplicate_file_set {
+	border: solid 1px darkslategrey;
+}
+
+.duplicate_file_name {
+	vertical-align: top;
+}
+
+.other_file_div {
+	display: table-cell;
+}
+
+.folder_controls {
+	vertical-align: top;
+	margin-right: 1em;
+}
+
+.folder_keep_button {
+	background: green;
+	color: seashell;
+	vertical-align: top;
+}
+
+.folder_delete_button {
+	background: red;
+	color: seashell;
+	vertical-align: top;
+	margin-left: 1em;
+}
+
+#content {
+	text-align:center;
+	width: 90%;
+	margin: 0 5% 0 5%;
+}
+
+th {
+	color: teal;
+	font-size: 1.0em;
+}
+
+td.keep_file {
+	text-align: left;
+}
+
+td.save_file {
+	text-align: left;
+}
+
+a:link,a:visited {
+	color: black;
+	text-decoration: underline;
+}
+
+a:hover {
+	color: yellow;
+	background: black;
+	font-style: normal;
+	text-decoration: none;
+}
+
+a img {
+	border-width: 0;
+}
+
+.alert {
+    color: blue;
+}
+
+table.list_rows {
+	color: seashell;
+	background: darkslategrey;
+}
+
+.list_rows a:link {
+	color: seashell;
+}
+
+.list_rows a:visited {
+	color: seashell;
+}
+
+.list_rows th {
+	background: darkslategrey;
+	color: yellow;
+}
+
+.list_rows td {
+	border-style: outset;
+	border-width: 1;
+	text-align: center;
+}
+
+.list_rows tr {
+	border-style: outset;
+	border-width: 1;
+}
+
+.site_heading {
+	color: seashell;
+	background: teal;
+	margin: 0 0 0.5em 0;
+}
+
+.site_heading a:link {
+	color: seashell;
+	background: teal;
+	text-decoration: none;
+}
+
+.site_heading a:visited {
+	color: seashell;
+	background: teal;
+	text-decoration: none;
+}
+
+table.table_form {
+	text-align: center;
+	width: 90%;
+	margin: 0 5% 0 5%;
+}
+
+.table_form tr {
+	line-height: 1.5em;
+}
+
+table.table_form_entry {
+	margin-top: 2em;
+}
+
+.table_form_entry td {
+	color: darkslategrey;
+}
+
+.table_form_entry input {
+	color: black;
+	margin-left: 1em;
+}
+
+td.table_form_left {
+	text-align: right;
+}
+
+td.table_form_right {
+	text-align: left;
+}
+
+#site_name {
+	margin: 0 10% 0 10%;
+}
+
+#site_logo {
+	width: 20%;
+}
+
+#site_dummy {
+	width: 20%;
+}
+
+#footer {
+	background: teal;
+	margin-top: 1em;
+}
+
+.list_as_line td {
+	font-size: 0.9em;
+	text-align: center;
+	padding: 0 0.7em 0 0.7em;
+}
+
+.list_as_text td {
+	color: red;
+	text-align: center;
+	padding: 0 0.7em 0 0.7em;
+}
+
+.imageList img {
+	margin-left: 1em;
+	text-align: left;
+}

@@ -1,0 +1,446 @@
+<?xml version='1.0'?>
+<nonogram>
+<clues>
+<clues_for type="column" index="1">
+<clue seq="1">7</clue>
+<clue seq="2">2</clue>
+<clue seq="3">1</clue>
+<clue seq="4">1</clue>
+<clue seq="5">7</clue>
+</clues_for>
+<clues_for type="column" index="2">
+<clue seq="1">1</clue>
+<clue seq="2">1</clue>
+<clue seq="3">2</clue>
+<clue seq="4">2</clue>
+<clue seq="5">1</clue>
+<clue seq="6">1</clue>
+</clues_for>
+<clues_for type="column" index="3">
+<clue seq="1">1</clue>
+<clue seq="2">3</clue>
+<clue seq="3">1</clue>
+<clue seq="4">3</clue>
+<clue seq="5">1</clue>
+<clue seq="6">3</clue>
+<clue seq="7">1</clue>
+<clue seq="8">3</clue>
+<clue seq="9">1</clue>
+</clues_for>
+<clues_for type="column" index="4">
+<clue seq="1">1</clue>
+<clue seq="2">3</clue>
+<clue seq="3">1</clue>
+<clue seq="4">1</clue>
+<clue seq="5">5</clue>
+<clue seq="6">1</clue>
+<clue seq="7">3</clue>
+<clue seq="8">1</clue>
+</clues_for>
+<clues_for type="column" index="5">
+<clue seq="1">1</clue>
+<clue seq="2">3</clue>
+<clue seq="3">1</clue>
+<clue seq="4">1</clue>
+<clue seq="5">4</clue>
+<clue seq="6">1</clue>
+<clue seq="7">3</clue>
+<clue seq="8">1</clue>
+</clues_for>
+<clues_for type="column" index="6">
+<clue seq="1">1</clue>
+<clue seq="2">1</clue>
+<clue seq="3">1</clue>
+<clue seq="4">2</clue>
+<clue seq="5">1</clue>
+<clue seq="6">1</clue>
+</clues_for>
+<clues_for type="column" index="7">
+<clue seq="1">7</clue>
+<clue seq="2">1</clue>
+<clue seq="3">1</clue>
+<clue seq="4">1</clue>
+<clue seq="5">1</clue>
+<clue seq="6">1</clue>
+<clue seq="7">7</clue>
+</clues_for>
+<clues_for type="column" index="8">
+<clue seq="1">1</clue>
+<clue seq="2">1</clue>
+<clue seq="3">3</clue>
+</clues_for>
+<clues_for type="column" index="9">
+<clue seq="1">2</clue>
+<clue seq="2">1</clue>
+<clue seq="3">2</clue>
+<clue seq="4">1</clue>
+<clue seq="5">8</clue>
+<clue seq="6">2</clue>
+<clue seq="7">1</clue>
+</clues_for>
+<clues_for type="column" index="10">
+<clue seq="1">2</clue>
+<clue seq="2">2</clue>
+<clue seq="3">1</clue>
+<clue seq="4">2</clue>
+<clue seq="5">1</clue>
+<clue seq="6">1</clue>
+<clue seq="7">1</clue>
+<clue seq="8">2</clue>
+</clues_for>
+<clues_for type="column" index="11">
+<clue seq="1">1</clue>
+<clue seq="2">7</clue>
+<clue seq="3">3</clue>
+<clue seq="4">2</clue>
+<clue seq="5">1</clue>
+</clues_for>
+<clues_for type="column" index="12">
+<clue seq="1">1</clue>
+<clue seq="2">2</clue>
+<clue seq="3">3</clue>
+<clue seq="4">1</clue>
+<clue seq="5">1</clue>
+<clue seq="6">1</clue>
+<clue seq="7">1</clue>
+<clue seq="8">1</clue>
+</clues_for>
+<clues_for type="column" index="13">
+<clue seq="1">4</clue>
+<clue seq="2">1</clue>
+<clue seq="3">1</clue>
+<clue seq="4">2</clue>
+<clue seq="5">6</clue>
+</clues_for>
+<clues_for type="column" index="14">
+<clue seq="1">3</clue>
+<clue seq="2">3</clue>
+<clue seq="3">1</clue>
+<clue seq="4">1</clue>
+<clue seq="5">1</clue>
+<clue seq="6">3</clue>
+<clue seq="7">1</clue>
+</clues_for>
+<clues_for type="column" index="15">
+<clue seq="1">1</clue>
+<clue seq="2">2</clue>
+<clue seq="3">5</clue>
+<clue seq="4">2</clue>
+<clue seq="5">2</clue>
+</clues_for>
+<clues_for type="column" index="16">
+<clue seq="1">2</clue>
+<clue seq="2">2</clue>
+<clue seq="3">1</clue>
+<clue seq="4">1</clue>
+<clue seq="5">1</clue>
+<clue seq="6">1</clue>
+<clue seq="7">1</clue>
+<clue seq="8">2</clue>
+<clue seq="9">1</clue>
+</clues_for>
+<clues_for type="column" index="17">
+<clue seq="1">1</clue>
+<clue seq="2">3</clue>
+<clue seq="3">3</clue>
+<clue seq="4">2</clue>
+<clue seq="5">1</clue>
+<clue seq="6">8</clue>
+<clue seq="7">1</clue>
+</clues_for>
+<clues_for type="column" index="18">
+<clue seq="1">6</clue>
+<clue seq="2">2</clue>
+<clue seq="3">1</clue>
+</clues_for>
+<clues_for type="column" index="19">
+<clue seq="1">7</clue>
+<clue seq="2">1</clue>
+<clue seq="3">4</clue>
+<clue seq="4">1</clue>
+<clue seq="5">1</clue>
+<clue seq="6">3</clue>
+</clues_for>
+<clues_for type="column" index="20">
+<clue seq="1">1</clue>
+<clue seq="2">1</clue>
+<clue seq="3">1</clue>
+<clue seq="4">1</clue>
+<clue seq="5">4</clue>
+</clues_for>
+<clues_for type="column" index="21">
+<clue seq="1">1</clue>
+<clue seq="2">3</clue>
+<clue seq="3">1</clue>
+<clue seq="4">3</clue>
+<clue seq="5">7</clue>
+<clue seq="6">1</clue>
+</clues_for>
+<clues_for type="column" index="22">
+<clue seq="1">1</clue>
+<clue seq="2">3</clue>
+<clue seq="3">1</clue>
+<clue seq="4">1</clue>
+<clue seq="5">1</clue>
+<clue seq="6">2</clue>
+<clue seq="7">1</clue>
+<clue seq="8">1</clue>
+<clue seq="9">4</clue>
+</clues_for>
+<clues_for type="column" index="23">
+<clue seq="1">1</clue>
+<clue seq="2">3</clue>
+<clue seq="3">1</clue>
+<clue seq="4">4</clue>
+<clue seq="5">3</clue>
+<clue seq="6">3</clue>
+</clues_for>
+<clues_for type="column" index="24">
+<clue seq="1">1</clue>
+<clue seq="2">1</clue>
+<clue seq="3">2</clue>
+<clue seq="4">2</clue>
+<clue seq="5">2</clue>
+<clue seq="6">6</clue>
+<clue seq="7">1</clue>
+</clues_for>
+<clues_for type="column" index="25">
+<clue seq="1">7</clue>
+<clue seq="2">1</clue>
+<clue seq="3">3</clue>
+<clue seq="4">2</clue>
+<clue seq="5">1</clue>
+<clue seq="6">1</clue>
+</clues_for>
+<clues_for type="row" index="1">
+<clue seq="1">7</clue>
+<clue seq="2">3</clue>
+<clue seq="3">1</clue>
+<clue seq="4">1</clue>
+<clue seq="5">7</clue>
+</clues_for>
+<clues_for type="row" index="2">
+<clue seq="1">1</clue>
+<clue seq="2">1</clue>
+<clue seq="3">2</clue>
+<clue seq="4">2</clue>
+<clue seq="5">1</clue>
+<clue seq="6">1</clue>
+</clues_for>
+<clues_for type="row" index="3">
+<clue seq="1">1</clue>
+<clue seq="2">3</clue>
+<clue seq="3">1</clue>
+<clue seq="4">3</clue>
+<clue seq="5">1</clue>
+<clue seq="6">1</clue>
+<clue seq="7">3</clue>
+<clue seq="8">1</clue>
+</clues_for>
+<clues_for type="row" index="4">
+<clue seq="1">1</clue>
+<clue seq="2">3</clue>
+<clue seq="3">1</clue>
+<clue seq="4">1</clue>
+<clue seq="5">6</clue>
+<clue seq="6">1</clue>
+<clue seq="7">3</clue>
+<clue seq="8">1</clue>
+</clues_for>
+<clues_for type="row" index="5">
+<clue seq="1">1</clue>
+<clue seq="2">3</clue>
+<clue seq="3">1</clue>
+<clue seq="4">5</clue>
+<clue seq="5">2</clue>
+<clue seq="6">1</clue>
+<clue seq="7">3</clue>
+<clue seq="8">1</clue>
+</clues_for>
+<clues_for type="row" index="6">
+<clue seq="1">1</clue>
+<clue seq="2">1</clue>
+<clue seq="3">2</clue>
+<clue seq="4">1</clue>
+<clue seq="5">1</clue>
+</clues_for>
+<clues_for type="row" index="7">
+<clue seq="1">7</clue>
+<clue seq="2">1</clue>
+<clue seq="3">1</clue>
+<clue seq="4">1</clue>
+<clue seq="5">1</clue>
+<clue seq="6">1</clue>
+<clue seq="7">7</clue>
+</clues_for>
+<clues_for type="row" index="8">
+<clue seq="1">3</clue>
+<clue seq="2">3</clue>
+</clues_for>
+<clues_for type="row" index="9">
+<clue seq="1">1</clue>
+<clue seq="2">2</clue>
+<clue seq="3">3</clue>
+<clue seq="4">1</clue>
+<clue seq="5">1</clue>
+<clue seq="6">3</clue>
+<clue seq="7">1</clue>
+<clue seq="8">1</clue>
+<clue seq="9">2</clue>
+</clues_for>
+<clues_for type="row" index="10">
+<clue seq="1">1</clue>
+<clue seq="2">1</clue>
+<clue seq="3">3</clue>
+<clue seq="4">2</clue>
+<clue seq="5">1</clue>
+<clue seq="6">1</clue>
+</clues_for>
+<clues_for type="row" index="11">
+<clue seq="1">4</clue>
+<clue seq="2">1</clue>
+<clue seq="3">4</clue>
+<clue seq="4">2</clue>
+<clue seq="5">1</clue>
+<clue seq="6">2</clue>
+</clues_for>
+<clues_for type="row" index="12">
+<clue seq="1">1</clue>
+<clue seq="2">1</clue>
+<clue seq="3">1</clue>
+<clue seq="4">1</clue>
+<clue seq="5">1</clue>
+<clue seq="6">4</clue>
+<clue seq="7">1</clue>
+<clue seq="8">3</clue>
+</clues_for>
+<clues_for type="row" index="13">
+<clue seq="1">2</clue>
+<clue seq="2">1</clue>
+<clue seq="3">1</clue>
+<clue seq="4">1</clue>
+<clue seq="5">2</clue>
+<clue seq="6">5</clue>
+</clues_for>
+<clues_for type="row" index="14">
+<clue seq="1">3</clue>
+<clue seq="2">2</clue>
+<clue seq="3">2</clue>
+<clue seq="4">6</clue>
+<clue seq="5">3</clue>
+<clue seq="6">1</clue>
+</clues_for>
+<clues_for type="row" index="15">
+<clue seq="1">1</clue>
+<clue seq="2">9</clue>
+<clue seq="3">1</clue>
+<clue seq="4">1</clue>
+<clue seq="5">2</clue>
+<clue seq="6">1</clue>
+</clues_for>
+<clues_for type="row" index="16">
+<clue seq="1">2</clue>
+<clue seq="2">1</clue>
+<clue seq="3">2</clue>
+<clue seq="4">2</clue>
+<clue seq="5">3</clue>
+<clue seq="6">1</clue>
+</clues_for>
+<clues_for type="row" index="17">
+<clue seq="1">3</clue>
+<clue seq="2">1</clue>
+<clue seq="3">1</clue>
+<clue seq="4">1</clue>
+<clue seq="5">1</clue>
+<clue seq="6">5</clue>
+<clue seq="7">1</clue>
+</clues_for>
+<clues_for type="row" index="18">
+<clue seq="1">1</clue>
+<clue seq="2">2</clue>
+<clue seq="3">2</clue>
+<clue seq="4">5</clue>
+</clues_for>
+<clues_for type="row" index="19">
+<clue seq="1">7</clue>
+<clue seq="2">1</clue>
+<clue seq="3">2</clue>
+<clue seq="4">1</clue>
+<clue seq="5">1</clue>
+<clue seq="6">1</clue>
+<clue seq="7">3</clue>
+</clues_for>
+<clues_for type="row" index="20">
+<clue seq="1">1</clue>
+<clue seq="2">1</clue>
+<clue seq="3">2</clue>
+<clue seq="4">1</clue>
+<clue seq="5">2</clue>
+<clue seq="6">2</clue>
+<clue seq="7">1</clue>
+</clues_for>
+<clues_for type="row" index="21">
+<clue seq="1">1</clue>
+<clue seq="2">3</clue>
+<clue seq="3">1</clue>
+<clue seq="4">4</clue>
+<clue seq="5">5</clue>
+<clue seq="6">1</clue>
+</clues_for>
+<clues_for type="row" index="22">
+<clue seq="1">1</clue>
+<clue seq="2">3</clue>
+<clue seq="3">1</clue>
+<clue seq="4">3</clue>
+<clue seq="5">10</clue>
+<clue seq="6">2</clue>
+</clues_for>
+<clues_for type="row" index="23">
+<clue seq="1">1</clue>
+<clue seq="2">3</clue>
+<clue seq="3">1</clue>
+<clue seq="4">1</clue>
+<clue seq="5">6</clue>
+<clue seq="6">6</clue>
+</clues_for>
+<clues_for type="row" index="24">
+<clue seq="1">1</clue>
+<clue seq="2">1</clue>
+<clue seq="3">2</clue>
+<clue seq="4">1</clue>
+<clue seq="5">1</clue>
+<clue seq="6">2</clue>
+</clues_for>
+<clues_for type="row" index="25">
+<clue seq="1">7</clue>
+<clue seq="2">2</clue>
+<clue seq="3">1</clue>
+<clue seq="4">2</clue>
+<clue seq="5">5</clue>
+</clues_for>
+</clues>
+<filled>
+    <position row="4" column="4" initial="y"></position>
+    <position row="4" column="5" initial="y"></position>
+    <position row="4" column="13" initial="y"></position>
+    <position row="4" column="14" initial="y"></position>
+    <position row="4" column="22" initial="y"></position>
+    <position row="9" column="7" initial="y"></position>
+    <position row="9" column="8" initial="y"></position>
+    <position row="9" column="11" initial="y"></position>
+    <position row="9" column="15" initial="y"></position>
+    <position row="9" column="16" initial="y"></position>
+    <position row="9" column="19" initial="y"></position>
+    <position row="17" column="7" initial="y"></position>
+    <position row="17" column="12" initial="y"></position>
+    <position row="17" column="17" initial="y"></position>
+    <position row="17" column="21" initial="y"></position>
+    <position row="22" column="4" initial="y"></position>
+    <position row="22" column="5" initial="y"></position>
+    <position row="22" column="10" initial="y"></position>
+    <position row="22" column="11" initial="y"></position>
+    <position row="22" column="16" initial="y"></position>
+    <position row="22" column="21" initial="y"></position>
+    <position row="22" column="22" initial="y"></position>
+</filled>
+</nonogram>
