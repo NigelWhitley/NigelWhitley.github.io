@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ /~nigel/Projects/NigelWhitley.github.io/nonogram/index.php?/$1 [L]
