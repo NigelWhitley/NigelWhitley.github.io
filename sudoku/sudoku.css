@@ -41,13 +41,6 @@ h1 {
 }
 
 
-#puzzle {
-	background: darkslategray;
-	border-style: solid;
-	border-width: 1px;
-}
-
-
 #title_section {
 	color: gold;
 	margin-left: auto;
@@ -67,27 +60,13 @@ h1 {
 }
 
 
-#content_section {
-	background-color: whitesmoke;
-	display: inline;
-	margin:auto;
-}
-
-
 #files_section {
 	position: absolute;
 	background-color: whitesmoke;
 	display: inline-block;
 	margin: 0 auto;
 	border-width: 0;
-}
-
-
-label,button-label {
-	background-color: silver;
-	display: inline-block;
-	color: darkslategray;
-	border-width: 1px solid dimgray;
+	display: none;
 }
 
 
@@ -96,11 +75,43 @@ input#file-selector {
 }
 
 
-#puzzle_section {
-	background-color: whitesmoke;
+label, .button-label {
+	background-color: silver;
 	display: inline-block;
-	margin: 0 auto;
-	border-width: 0;
+	color: darkslategray;
+	border-width: 1px solid dimgray;
+}
+
+
+select, input {
+	border-radius: 5px;
+	border-width: 1px;
+}
+
+
+#content_section {
+	padding-top: 10px;
+	background-color: whitesmoke;
+	margin: auto;
+    display: inline-flex;
+	flex-wrap: wrap;
+	/*
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 5px 5px;
+    justify-content: center;
+    align-content: center;
+	*/
+}
+
+
+select#aidLevel {
+	box-shadow:         0 2px 2px gray;
+}
+
+
+input {
+	box-shadow:         -1px 2px 2px gray;
 }
 
 
@@ -110,11 +121,17 @@ input#file-selector {
     padding: 0 0.8em;
 	color: darkslategray;
 	background-color: lightgray; 
+	border-radius: 5px;
 	overflow: auto;
 	text-align: left; 
 	display: inline-block;
-	width: 25%;
-	border: 1px solid dimgray;
+	width: 50%;
+	border: 2px solid dimgray;
+	-moz-box-shadow:    3px 6px 2px lightslategray;
+	-webkit-box-shadow: 3px 6px 2px lightslategray;
+	box-shadow:         3px 6px 2px lightslategray;
+	align-self: start;
+	justify-self: start;
 }
 
 
@@ -168,18 +185,21 @@ input#file-selector {
 }
 
 .light_glow {
-	-moz-box-shadow:    0px 0px 2px 1px slategray,0px 0px 5px 4px rgba(0,0,0,0.7);
-	-webkit-box-shadow: 0px 0px 2px 1px slategray,0px 0px 5px 4px rgba(0,0,0,0.7);
-	box-shadow:         0px 0px 2px 1px slategray,0px 0px 5px 4px rgba(0,0,0,0.7);
+	-moz-box-shadow:    0px 0px 2px 1px darkslategray,0px 0px 5px 4px rgba(0,0,0,0.7);
+	-webkit-box-shadow: 0px 0px 2px 1px darkslategray,0px 0px 5px 4px rgba(0,0,0,0.7);
+	box-shadow:         0px 0px 2px 1px darkslategray,0px 0px 5px 4px rgba(0,0,0,0.7);
 }
 
 #legal_section .light_glow {
 	opacity: 0.5;
-	border: 1px solid slategray;
 	padding: 5px;
+	border-radius: 5px;
+	/*
 	-moz-box-shadow:    0px 0px 5px 4px rgba(32,32,32,0.5);
 	-webkit-box-shadow: 0px 0px 5px 4px rgba(32,32,32,0.5);
-	box-shadow:         0px 0px 5px 4px rgba(32,32,32,0.5);
+	box-shadow:         0px 0px 5px 4px inset rgba(32,32,32,0.5);
+	*/
+	box-shadow:         0px 0px 5px 4px rgba(218,165,32,0.7);
 }
 
 .risen_text {
@@ -192,7 +212,31 @@ input#file-selector {
 }
 
 
+#puzzle_section {
+	background-color: whitesmoke;
+	display: inline-block;
+	margin: 0 auto;
+	border-width: 0;
+	align-self: end;
+	justify-self: end;
+}
+
+
 #puzzle {
+	background: dimgray;
+	border-style: solid;
+	border-width: 1px;
+    max-width: 650px;
+    max-height: 650px;
+    min-width: 500px;
+    min-height: 500px;
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 5px 5px;
+    justify-content: center;
+    align-content: center;
+    border: black 2px solid;
 	-moz-box-shadow:    -3px 6px 2px lightslategray;
 	-webkit-box-shadow: -3px 6px 2px lightslategray;
 	box-shadow:         -3px 6px 2px lightslategray;
@@ -200,25 +244,47 @@ input#file-selector {
 }
 
 
-#info_section {
-	-moz-box-shadow:    3px 6px 2px lightslategray;
-	-webkit-box-shadow: 3px 6px 2px lightslategray;
-	box-shadow:         3px 6px 2px lightslategray;
-	/* padding-bottom: 4px; */
-}
-
-
 .puzzleCell {
+	/*
 	text-align: center;
 	vertical-align: middle;
 	border-style: solid;
 	border-width: 1px;
+	*/
 	background-color: linen;
 	height: 40pt;
 	width: 40pt;
+    max-width: 72px;
+    max-height: 72px;
+    min-width: 33px;
+    min-height: 33px;
+    font-size: calc(10px + 2vmin);
+    color: slategrey;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 1px 1px;
+    justify-content: center;
+    align-content: center;
+	text-align: center;
+	vertical-align: middle;
 }
 
 .puzzleBlock {
+    max-width: 200px;
+    max-height: 200px;
+    min-width: 100px;
+    min-height: 100px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 1px 1px;
+    justify-content: center;
+    align-content: center;
 	text-align: center;
 	vertical-align: middle;
 	background: smokewhite;
@@ -234,10 +300,13 @@ input#file-selector {
 	background: dimGray;
 	color: white;
 	text-shadow:	0px 3px 2px rgba(24,24,24,0.5);
-			
+	display: flex;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
 }
 
-td.possibleCell {
+.possibleCell {
 	margin: 0;
 	border-style: none;
 	font-size: 7pt;
@@ -245,113 +314,122 @@ td.possibleCell {
 	width: 9pt;
 	vertical-align: middle;
 	text-align: center;
+
+	display: inline-block;
+	/*
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 1px 1px;
+    justify-content: center;
+    align-content: center;
+	*/
 }
 
-td.possible {
+.possible {
 	color: darkSlateGray;
 }
 
-td.single, .single {
+.single {
 	color: black;
     border: black 1px solid;
 }
 
-td.rowpin {
+.rowpin {
 	background-color: green;
 }
 
-td.columnpin {
+.columnpin {
 	background-color: olive;
 }
 
-td.rblockpin {
+.rblockpin {
 	background-color: seagreen;
 }
 
-td.cblockpin {
+.cblockpin {
 	background-color: olivedrab;
 }
 
-td.rblockpin,td.cblockpin {
+.rblockpin,.cblockpin {
 	color: white;
 }
 
-td.cblockpin.rblockpin {
+.cblockpin.rblockpin {
 	background-color: red;
 	/*color: red;*/
 }
 
-td.blockgroup {
+.blockgroup {
 	background-color: yellow;
 }
 
-td.rowgroup {
+.rowgroup {
 	background-color: lime;
 }
 
-td.columngroup {
+.columngroup {
 	background-color: orangered;
 }
 
-td.blockgroup.rowgroup {
+.blockgroup.rowgroup {
 	background-color: lightsalmon;
 }
 
-td.blockgroup.columngroup {
+.blockgroup.columngroup {
 	background-color: orange;
 }
 
-td.columngroup.rowgroup {
+.columngroup.rowgroup {
 	background-color: saddlebrown;
 }
 
-td.impossible {
+.impossible {
 	color: dimgray;
 }
 
-td.group1 {
+.group1 {
 	color: rgb(196,0,0);
 }
 
-td.columngroup.group1 {
+.columngroup.group1 {
 	color: white;
 }
 
-td.group0 {
+.group0 {
 	color: rgb(0,0,0);
 }
 
-td.group2 {
+.group2 {
 	color: rgb(0,196,0);
 }
 
-td.group3 {
+.group3 {
 	color: rgb(0,0,196);
 }
 
-td.group4 {
+.group4 {
 	color: rgb(196,0,196);
 }
 
-td.group5 {
+.group5 {
 	color: rgb(196,196,0);
 }
 
-td.group6 {
+.group6 {
 	color: rgb(0,196,196);
 }
 
-td.possible:hover {
+.possible:hover {
 	background-color: darkGray;
 	cursor: pointer;
 }
 
-td.single:hover {
+.single:hover {
 	background-color: goldenrod;
 	cursor: pointer;
 }
 
-td.impossible:hover {
+.impossible:hover {
 	color: slateGray;
 	background-color: lightgray;
 	cursor: pointer;
