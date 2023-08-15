@@ -9,9 +9,9 @@ Sudoku Aid v0.3 by Nigel Whitley (c) Copyright 2005-2023
 	There are helper functions for accessing rows and columns of cells within the block.
 	*/
 
-	import {Position, Position_1d, PuzzlePosition, CellValue, PuzzleValue} from "/SudokuPosition.js";
-	import {SudokuStatic, SudokuGlobal} from "/SudokuVars.js";
-	import {SudokuCell} from "/SudokuCell.js";
+	import {Position, Position_1d, PuzzlePosition, CellValue, PuzzleValue} from "./SudokuPosition.js";
+	import {SudokuStatic, SudokuGlobal} from "./SudokuVars.js";
+	import {SudokuCell} from "./SudokuCell.js";
 
 	export class SudokuBlock {
 

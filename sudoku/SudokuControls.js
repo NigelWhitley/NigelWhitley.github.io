@@ -9,8 +9,8 @@ Sudoku Aid v0.3 by Nigel Whitley (c) Copyright 2005-2023
 	are made available directly though the SudokuGlobal namespace.
 	*/
 
-	import {SudokuStatic, SudokuGlobal} from "/SudokuVars.js";
-	import {Position, PuzzlePosition} from "/SudokuPosition.js";
+	import {SudokuStatic, SudokuGlobal} from "./SudokuVars.js";
+	import {Position, PuzzlePosition} from "./SudokuPosition.js";
 	
 	export class SudokuControls {
 		constructor () {

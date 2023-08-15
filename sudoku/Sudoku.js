@@ -16,9 +16,9 @@ function dummyCallback() {
 }
 
 
-import {SudokuStatic, SudokuGlobal} from "SudokuVars.js";
-import {SudokuControls} from "SudokuControls.js";
-import {SudokuPuzzle} from "SudokuPuzzle.js";
+import {SudokuStatic, SudokuGlobal} from "./SudokuVars.js";
+import {SudokuControls} from "./SudokuControls.js";
+import {SudokuPuzzle} from "./SudokuPuzzle.js";
 
 
 export default function initSudoku() {

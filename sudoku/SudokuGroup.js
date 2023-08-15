@@ -32,8 +32,8 @@ unit. If a value can be in only one position in a unit then all other values can
 excluded from consideration for that position.
 */
 
-import {SudokuStatic, SudokuGlobal} from "/SudokuVars.js";
-import {Position, Position_1d, PuzzlePosition, CellValue, PuzzleValue} from "/SudokuPosition.js";
+import {SudokuStatic, SudokuGlobal} from "./SudokuVars.js";
+import {Position, Position_1d, PuzzlePosition, CellValue, PuzzleValue} from "./SudokuPosition.js";
 
 	export class SudokuGroup {
 	// Define a group of possible values in the Sudoku square

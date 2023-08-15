@@ -1,9 +1,9 @@
 /* 
 Sudoku Aid v0.3 by Nigel Whitley (c) Copyright 27/05/2023
  */
-import {SudokuStatic, SudokuGlobal} from "/SudokuVars.js";
-import {Position, Position_1d, PuzzlePosition, CellValue, PuzzleValue} from "/SudokuPosition.js";
-import {SudokuGroup} from "/SudokuGroup.js";
+import {SudokuStatic, SudokuGlobal} from "./SudokuVars.js";
+import {Position, Position_1d, PuzzlePosition, CellValue, PuzzleValue} from "./SudokuPosition.js";
+import {SudokuGroup} from "./SudokuGroup.js";
 
 	export class SudokuCellSet {
 	// When looking for groups we will start with all cells in a unit (a block, row or 

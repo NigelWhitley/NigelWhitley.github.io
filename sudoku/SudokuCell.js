@@ -11,8 +11,8 @@ Sudoku Aid v0.3 by Nigel Whitley (c) Copyright 2005-2023
 	of aid, possible values may have attributes attached to denote additional 
 	information for the user.
 	*/
-	import {SudokuStatic, SudokuGlobal} from "/SudokuVars.js";
-	import {Position, Position_1d, PuzzlePosition, CellValue, PuzzleValue} from "/SudokuPosition.js";
+	import {SudokuStatic, SudokuGlobal} from "./SudokuVars.js";
+	import {Position, Position_1d, PuzzlePosition, CellValue, PuzzleValue} from "./SudokuPosition.js";
 
 	//console.log("SudokuCell");
 	export class SudokuCell {
