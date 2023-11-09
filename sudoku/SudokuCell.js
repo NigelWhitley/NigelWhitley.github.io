@@ -166,9 +166,11 @@ Sudoku Aid v0.3 by Nigel Whitley (c) Copyright 2005-2023
             if (!is_impossible) {
                 //const table_cell=element.parentNode.parentNode.parentNode;
                 const table_cell=element.parentNode.parentNode;
-                const cell_name = table_cell.name;
-                const row = cell_name.substr( 4, 1);
-                const column = cell_name.substr( 6, 1);
+                //const cell_name = table_cell.name;
+                //const row = cell_name.substr( 4, 1);
+                //const column = cell_name.substr( 6, 1);
+                const row = $(element).data("cell_row");
+                const column = $(element).data("cell_row");
 
                 const clicked_text=element.childNodes[0].nodeValue;
                 const clickedValue = parseInt(clicked_text.valueOf());
@@ -197,10 +199,11 @@ Sudoku Aid v0.3 by Nigel Whitley (c) Copyright 2005-2023
 		{
             //console.log("Removing from cell");
 			const table_cell=element.parentNode.parentNode.parentNode;
-			const cell_name = table_cell.name;
-			const row = cell_name.substr( 4, 1);
-			const column = cell_name.substr( 6, 1);
-            console.log("row "+row+", column "+column);
+            //console.log("contextPossibleValue table_cell");
+            //console.log(table_cell)
+			const row = table_cell.getAttribute("data-cell-row")
+			const column = table_cell.getAttribute("data-cell-column")
+            //console.log("row "+row+", column "+column);
 
 			const clicked_text=element.childNodes[0].nodeValue;
             //console.log("excluding value "+clicked_text);
@@ -284,8 +287,10 @@ Sudoku Aid v0.3 by Nigel Whitley (c) Copyright 2005-2023
                             
                             // Right click - remove possible value
 							const contextfunc=function(e) {
+                                e.preventDefault();
 								that.contextPossibleValue(this, e); // pass-through the event object
-							}; 
+							};
+                            //console.log("showCell Added right click");
 							addEvent(possibleDetail, "contextmenu", contextfunc, false);
 						}
 						possibleValue++;

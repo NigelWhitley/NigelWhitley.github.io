@@ -147,7 +147,8 @@ Sudoku Aid v0.3 by Nigel Whitley (c) Copyright 2005-2023
 				for ( let column=SudokuStatic.firstBlockColumn; column <= SudokuStatic.lastBlockColumn; column++) {
 					//const currentBlock=document.createElement("TD");
 					const currentBlock=document.createElement("DIV");
-					currentBlock.name = "block"+row+"_"+column;
+					currentBlock.setAttribute("data-block-row", row)
+					currentBlock.setAttribute("data-block-column", column)
 					currentBlock.className = "puzzleBlock";
 
 					const blockPosition = new Position(row, column);
@@ -348,7 +349,6 @@ Sudoku Aid v0.3 by Nigel Whitley (c) Copyright 2005-2023
 			// It then flags any such value found. 
 			this.buildPossibleValues();
 			this.hintsFound = this.checkForGroups("show");
-			//this.hintsFound = this.checkForPins("exclude") || this.hintsFound;
 			this.hintsFound = this.checkForSingles() || this.hintsFound;
 			return false;
 		}
@@ -361,7 +361,6 @@ Sudoku Aid v0.3 by Nigel Whitley (c) Copyright 2005-2023
 			this.buildPossibleValues();
 			//const oldDebugState = debugFramework.enableDebug();
 			this.hintsFound = this.checkForGroups("exclude");
-			//this.hintsFound = this.checkForPins("exclude") || this.hintsFound;
 			//debugFramework.restoreDebug( oldDebugState );
 			this.hintsFound = this.checkForSingles() || this.hintsFound;
 			return false;

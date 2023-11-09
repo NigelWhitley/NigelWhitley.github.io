@@ -144,6 +144,8 @@ Sudoku Aid v0.3 by Nigel Whitley (c) Copyright 2005-2023
 
 					currentCell.name = "cell"+row+"_"+column;
 					currentCell.className ="puzzleCell";
+					currentCell.setAttribute("data-cell-row", row)
+					currentCell.setAttribute("data-cell-column", column)
 					const cellPosition = new Position(row, column);
 					const cell = new SudokuCell(this, currentCell, cellPosition);
 					// This assignment needs to match the getCell function
