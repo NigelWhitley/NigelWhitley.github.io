@@ -92,7 +92,8 @@ a img {
 
 
 #title_section {
-	font-family: palatino, helvetica, arial, sans-serif;
+	/* font-family: palatino, helvetica, arial, sans-serif; */
+	font-family: helvetica, arial, sans-serif;
 	text-align: center;
 	margin-bottom: 1em;
 	margin-left: auto;
@@ -230,10 +231,34 @@ h3.subtitle{
 #programs {
 	display: inline-block;
 	padding: 0;
-	position:relative;
+	padding-top: 1em;
+	padding-left: 1em;
+	padding-right: 1em;
+	position: relative;
 	text-align: left;
 	height:20em;
-	top: 1em;
+	/*
+	border: #000 1px solid;
+	*/
+}
+
+#programs img {
+	display: block;
+	padding: 0;
+	margin: 0 auto;
+	top: 3rem;
+	/*
+	left: 0;
+	right: 0;
+	*/
+	height: 16em;
+	position: absolute;
+	width: 41em;
+	z-index: -10;
+	opacity: 0.5;
+	/*
+	border: #000 1px solid;
+	 */
 }
 
 .program-name {
@@ -249,7 +274,7 @@ h3.subtitle{
 .program-desc {
 	display: inline;
 	padding: 0;
-	margin: 2em 0 0 0;
+	margin: 2.7em 0 0 0;
 	display: none;
 	top:0;
 	position:absolute;
@@ -555,9 +580,11 @@ div.program-desc:target > div{
     padding: 10px 15px;
     text-decoration: none;
     margin:3px;
-    -o-transition: background-color .5s ease;
+    /*
+	-o-transition: background-color .5s ease;
     -moz-transition: background-color .5s ease;
     -webkit-transition: background-color .5s ease;
+	*/
     transition: background-color .5s ease;
 }
 
