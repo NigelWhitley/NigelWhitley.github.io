@@ -487,11 +487,10 @@ a.close-desc {
 }
 
 #intro {
-	margin-top: 1em;
-	margin-bottom: 1em;
-	font-size: 1.2em;
-	text-align: left;
-	/* font-family: 'Playfair Display', 'Open Sans',"Avant Garde","Times New Roman", helvetica, arial, sans-serif; */
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	font-size: 1.2rem;
+	text-align: center;
 	font-style: none;
 }
 
