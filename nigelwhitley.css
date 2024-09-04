@@ -1,5 +1,12 @@
 * {box-sizing: border-box;}
 
+:root {
+	--background: #ffffff;
+	--base: darkslategrey;
+	--accent: teal;
+	--base-fg: honeydew;
+}
+
 body {
 	font-family: "Playfair Display", "Avant Garde","Times New Roman", helvetica, arial, sans-serif;
 	font-size: 100%; 
@@ -63,26 +70,17 @@ h3 {
 }
 
 #programs a:link,#programs a:visited,#programs a:hover {
-	color: honeydew;
+	color: var(--base-fg);
 	text-decoration: none;
 }
 #nav a:link,#nav a:visited,#nav a:hover {
-	color: honeydew;
+	color: var(--base-fg);
 	text-decoration: none;
 }
 #nav a:hover {
-	color: lightseagreen;
+	background-color: var(--accent);
 	text-decoration: none;
 }
-/*
-h3 a:link{
-	background: powderblue;
-}
-
-h3 a:hover {
-	color: steelblue;
-}
-*/
 
 a img {
 	border-width: 0;
@@ -90,7 +88,6 @@ a img {
 
 
 #title_section {
-	/* font-family: palatino, helvetica, arial, sans-serif; */
 	font-family: helvetica, arial, sans-serif;
 	text-align: center;
 	margin-bottom: 1em;
@@ -99,8 +96,8 @@ a img {
 }
 
 #title_section h1 span {
-	background: darkslategrey;
-	color: snow;
+	background: var(--base);
+	color: var(--base-fg);
 	font-size: 1em;
 	text-align: center;
 	padding: 0 1em;
@@ -111,8 +108,8 @@ a img {
 }
 
 h3.subtitle{
-    background-color: darkslategrey;
-    color: snow;
+    background-color: var(--base);
+    color: var(--base-fg);
     padding-left: 0.5em;
     text-shadow: 2px 2px 2px black;
 }
@@ -134,31 +131,29 @@ h3.subtitle{
 	text-align: center; 
 	font-size: 0.7em; 
 	background-color: black; 
-	color: aliceblue; 
+	color: var(--base-fg); 
 }
 
 #nav_section {
-	background-color: darkslategrey;
+	background-color: var(--base);
 	margin: 0;
 	padding: 0;
 	font-size: 80%;
 }
 
 #nav {
-	/* font-size: 0.8em; */
-	background-color: darkslategrey;
+	background-color: var(--base);
 	text-align: center;
 	border-style: none;
 	border-width: 1px;
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	/* width: 90%; */
 }
 
 #nav li  {
-	background-color: darkslategrey;
-	color: honeydew;
+	background-color: var(--base);
+	color: var(--base-fg);
 	padding: 0;
 	display: inline-block;
 	margin-left: 10px; /* add spacing between items */
@@ -168,18 +163,14 @@ h3.subtitle{
 #nav ul li a {
 	margin: 0;
 	padding: 0;
-	color: honeydew;
+	background-color: var(--base);
+	color: var(--base-fg);
 	font-style: normal;
 	text-decoration: none;
 }
-/*
-#nav li.current-nav,#nav li.current-nav:hover {
-	background-color: black; 
-	color: lightgray;
-}
-*/
 #nav li:hover {
-	color: lightseagreen;
+	background-color: var(--accent);
+	color: var(--base-fg);
 }
 
 #nav li:first-child  {
@@ -187,12 +178,12 @@ h3.subtitle{
 }
 
 .dark_glow {
-	box-shadow:         0px 0px 2px 1px darkslategrey,0px 0px 3px 3px rgba(0,0,0,0.7);
+	box-shadow:         0px 0px 2px 1px var(--base),0px 0px 3px 3px rgba(0,0,0,0.7);
 }
 
 .light_glow {
 	border: 1px solid darkseagreen;
-	box-shadow:         0px 0px 2px 1px lightseagreen,0px 0px 5px 4px rgba(160,160,160,0.7);
+	box-shadow:         0px 0px 2px 1px var(--accent),0px 0px 5px 4px rgba(160,160,160,0.7);
 }
 
 .inner_glow {
@@ -229,7 +220,6 @@ h3.subtitle{
 	display:inline-block;
 }
 #nav li  {
-	/* display: inline; */
 	padding: 0;
 }
 #programs {
@@ -243,8 +233,8 @@ h3.subtitle{
 	display: inline-block;
 	padding: 5px;
 	margin: auto;
-	background-color: darkslategrey; 
-	color: aliceblue;
+	background-color: var(--base); 
+	color: var(--base-fg);
 	border-width:0;
 	width:49%;
 	border-top: darkgray 1px solid;
@@ -266,18 +256,12 @@ div.program-desc > div {
 	margin: 25% auto;
 	width:30em;
 	max-width:100%;
-	background-color: honeydew;
+	background-color: var(--base-fg);
 	text-align:center;
 	position:relative;
 	opacity:1;
 	transition: opacity 2s ease;
 }
-/*
-#program-names a:first-child:hover + div{
-	display: block;
-	background-color: red;
-}
-*/
 
 div.modal-mask {
 	display: none;
@@ -286,12 +270,12 @@ div.modal-mask {
 	left: 0;
 	height:100%;
 	width:100%;
-	background-color: darkslategrey; 
+	background-color: var(--base); 
 	opacity:0.3;
 	transition: opacity 1s ease;
 }
 a.close-desc {
-	background-color: darkslategrey;
+	background-color: var(--base);
 	color: #FFFFFF;
 	line-height: 25px;
 	position: absolute;
@@ -319,11 +303,11 @@ div.program-desc:target > div{
 }
 
 .program-name:hover{
-	color: lightseagreen;
+	background-color: var(--accent);
 }
 
 .program-text {
-	border: 3px darkslategrey groove;
+	border: 3px var(--base) groove;
 	padding-bottom: 0.5em;
 }
 
@@ -353,9 +337,6 @@ div.program-desc:target > div{
 	display: block;
 	position: relative;
 	text-align: center;
-	/*
-	border: #000 1px solid;
-	*/
 }
 
 #programs {
@@ -369,9 +350,6 @@ div.program-desc:target > div{
 	position: relative;
 	text-align: center;
 	height:20em;
-	/*
-	border: #000 1px solid;
-	*/
 }
 
 #programs img {
@@ -386,9 +364,6 @@ div.program-desc:target > div{
 	position: absolute;
 	z-index: -10;
 	opacity: 0.4;
-	/*
-	border: #000 1px solid;
-	 */
 }
 
 #main-background img {
@@ -405,12 +380,12 @@ div.program-desc:target > div{
 .program-name {
 	padding: 10px;
 	margin: 0;
-	background-color: darkslategrey; 
-	color: aliceblue;
+	background-color: var(--base); 
+	color: var(--base-fg);
 	border-right: darkgray 1px solid;
 	font-variant: small-caps;
-	border-radius: 50%;
-	transition: border-radius 0.5s ease;
+	border-radius: 3px;
+	transition: border-radius 0.5s ease, background-color 0.5s ease;
 }
 .program-desc {
 	display: inline;
@@ -419,7 +394,7 @@ div.program-desc:target > div{
 	display: none;
 	top:0;
 	position:absolute;
-	color: darkslategrey;
+	color: var(--base);
 	opacity:0;
 	transition: opacity 3s ease;
 	text-align: left;
@@ -441,14 +416,17 @@ a.close-desc {
     display: none;
 }
 #nav li  {
-	background-color: darkslategrey; 
-	color: honeydew;
+	background-color: var(--base); 
+	color: var(--base-fg);
 	padding: 0;
+	padding-inline: 5px;
+	padding-block: 3px;
 	display: inline-block;
-	margin-right: 10px; /* add spacing between items */
+	margin-right: 5px; /* add spacing between items */
   }
 .program-name:hover{
-    border-radius: 3px;
+    border-radius: 15px;
+	background-color: var(--accent); 
 }
 
 }
@@ -460,9 +438,6 @@ a.close-desc {
 	.program-name {
 		border-radius: 0;
 	}
-}
-
-@media only screen and (max-width:950px) {
 	#purty {
 		display: none;
 	}
@@ -472,12 +447,9 @@ a.close-desc {
 	padding-left: 3em;
 	font-size: 0.8em;
 	color: darkred;
-	/*
-	padding: 1em 0 0 0;
-	*/
 }
 .program-desc div a:link,.program-desc div a:visited,.program-desc div a:hover {
-	color: lightseagreen;
+	color: var(--base-fg);
 	text-decoration: none;
 }
 
@@ -528,10 +500,10 @@ a.close-desc {
 }
 
 .button {
-    background-color: darkslategrey;
+    background-color: var(--base);
     border-style: solid;
     border-width: 0px;
-    border-color: aliceblue;
+    border-color: var(--base-fg);
     color: #fff;
     padding: 10px 15px;
     text-decoration: none;
@@ -542,22 +514,21 @@ a.close-desc {
 .button:hover {
     border-width: 3px;
     margin:0px;
-    background-color: aliceblue;
-    color:darkslategrey;
+    background-color: var(--base-fg);
+    color:var(--base);
 }
 
 .program-desc .centred-div {
     display: block;
     text-align: center;
-    /*margin:auto;*/
 }
 .program-desc .button {
-    background-color: lightseagreen;
-    border-color: aliceblue;
-    color: snow;
+    background-color: var(--accent);
+    border-color: var(--base-fg);
+    color: var(--base-fg);
 }
 
 .program-desc div a.button:link,.program-desc div a.button:visited,.program-desc div a.button:hover {
-	color: snow;
+	color: var(--base-fg);
 }
 
